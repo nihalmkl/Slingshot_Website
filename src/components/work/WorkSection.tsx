@@ -52,8 +52,8 @@ export default function WorkSection() {
     }
   ];
 
-  // Doubling the films data for smooth marquee loop continuity
-  const doubledFilms = [...films, ...films];
+  // Duplicated 4 times. This guarantees enough width for ultra-wide monitors to loop perfectly without gaps.
+  const seamlessFilms = [...films, ...films, ...films, ...films];
 
   return (
     <div className="relative h-screen bg-[#080808] text-white font-sans overflow-hidden selection:bg-yellow-600/30">
@@ -63,7 +63,7 @@ export default function WorkSection() {
 
       <CustomCursor />
 
-      {/* Global CSS for Marquee Animations */}
+      {/* Global CSS for Marquee Animations - Slowed down to 120s */}
       <style>{`
         @keyframes marquee-left {
           0% { transform: translateX(0%); }
@@ -75,12 +75,12 @@ export default function WorkSection() {
         }
         .animate-marquee-left {
           display: flex;
-          animation: marquee-left 35s linear infinite;
+          animation: marquee-left 120s linear infinite;
           width: max-content;
         }
         .animate-marquee-right {
           display: flex;
-          animation: marquee-right 35s linear infinite;
+          animation: marquee-right 120s linear infinite;
           width: max-content;
         }
         .animate-marquee-left:hover, .animate-marquee-right:hover {
@@ -214,24 +214,23 @@ export default function WorkSection() {
 
         {/* POSTER MODE (Moving Marquee Grid) */}
         {viewMode === 'poster' && (
-          // Reduced gap from gap-4 to gap-2 to bring the rows closer together
           <div className="flex flex-col gap-2 md:gap-3 pointer-events-auto h-screen justify-center w-full py-20 mt-10">
             
             {/* ROW 1: LEFT TO RIGHT */}
-            {/* Reduced h-[320px] to h-[180px] to perfectly hug the card sizes */}
             <div className="w-full overflow-hidden relative h-[180px]">
-              <div className="animate-marquee-right flex gap-4 md:gap-6 px-4 md:px-6">
-                {doubledFilms.map((film, idx) => (
+              {/* Removed px-4 here so the -50% translation matches the loop perfectly */}
+              <div className="animate-marquee-right flex gap-4 md:gap-6">
+                {seamlessFilms.map((film, idx) => (
                   <MarqueePosterCard key={`r1-${idx}`} film={film} />
                 ))}
               </div>
             </div>
 
             {/* ROW 2: RIGHT TO LEFT */}
-            {/* Reduced height here as well */}
             <div className="w-full overflow-hidden relative h-[180px]">
-              <div className="animate-marquee-left flex gap-4 md:gap-6 px-4 md:px-6">
-                {doubledFilms.map((film, idx) => (
+              {/* Removed px-4 here as well for perfect mathematical looping */}
+              <div className="animate-marquee-left flex gap-4 md:gap-6">
+                {seamlessFilms.map((film, idx) => (
                   <MarqueePosterCard key={`r2-${idx}`} film={film} />
                 ))}
               </div>
