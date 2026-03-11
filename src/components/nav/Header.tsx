@@ -1,0 +1,193 @@
+'use client'
+import React, { useState } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+
+export default function Header({ films, activeIndex, setActiveIndex, scrollContainerRef }:any) {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isFilmMenuOpen, setIsFilmMenuOpen] = useState(false);
+
+  const ticketMask = {
+    WebkitMaskImage: 'radial-gradient(circle at 0 0, transparent 12px, black 12.5px), radial-gradient(circle at 100% 0, transparent 12px, black 12.5px), radial-gradient(circle at 0 100%, transparent 12px, black 12.5px), radial-gradient(circle at 100% 100%, transparent 12px, black 12.5px)',
+    maskImage: 'radial-gradient(circle at 0 0, transparent 12px, black 12.5px), radial-gradient(circle at 100% 0, transparent 12px, black 12.5px), radial-gradient(circle at 0 100%, transparent 12px, black 12.5px), radial-gradient(circle at 100% 100%, transparent 12px, black 12.5px)',
+    WebkitMaskPosition: 'top left, top right, bottom left, bottom right',
+    maskPosition: 'top left, top right, bottom left, bottom right',
+    WebkitMaskSize: '51% 51%',
+    maskSize: '51% 51%',
+    WebkitMaskRepeat: 'no-repeat',
+    maskRepeat: 'no-repeat'
+  };
+
+  const handleMenuToggle = () => {
+    const nextState = !isMenuOpen;
+    setIsMenuOpen(nextState);
+
+    if (nextState) {
+      const audio = new Audio('/assets/audio/scroll.mp4');
+      audio.play().catch(error => console.log('Audio play failed:', error));
+    }
+  };
+
+  const handleFilmMenuToggle = () => {
+    const nextState = !isFilmMenuOpen;
+    setIsFilmMenuOpen(nextState);
+    if (nextState) {
+      const audio = new Audio('/assets/audio/scroll.mp4');
+      audio.play().catch(error => console.log('Audio play failed:', error));
+    }
+  };
+
+  return (
+    <header className="flex justify-between items-start mb-8 relative z-50 pointer-events-none">
+      <div className="flex flex-col fixed top-8 z-50 pointer-events-auto">
+        <Link href="/" aria-label="Slingshot Home" className="block w-32 md:w-40 hover:opacity-80 transition-opacity">
+          <Image src="/assets/images/sslogo-1.png" alt="Siena Film Foundation Logo" width={160} height={90} className="w-full h-auto object-contain " priority />
+        </Link>
+      </div>
+
+      <div className="absolute top-0 right-0 md:-top-4 md:-right-4 z-50 flex drop-shadow-2xl pointer-events-auto">
+        
+        {/* Main Ticket Body (Film Selector) */}
+        <div className="relative">
+          <div style={ticketMask} className="bg-[#fcfaf5] text-black flex flex-col w-[250px] md:w-[280px] h-full">
+            <div className="flex items-center justify-between px-4 py-3 flex-1 cursor-pointer" onClick={handleFilmMenuToggle}>
+              <div className="flex items-center gap-3">
+                <img src={films[activeIndex].img} alt="Current Film" className="object-cover w-10 h-10 rounded-md" />
+                <h2 className="text-[18px] md:text-[20px] leading-none font-black tracking-tight uppercase mt-1">
+                  {films[activeIndex].title}
+                </h2>
+              </div>
+              <button aria-label="Dropdown" className="mr-1 transform transition-transform">
+                <svg className={`w-5 h-5 text-black ${isFilmMenuOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+            </div>
+            
+            <div className="flex border-t border-black text-[8px] md:text-[9px] tracking-[0.15em] font-bold text-gray-800">
+              <span className="flex-[1.2] text-center py-2.5 border-r border-black">DOCUMENTARY</span>
+              <span className="flex-[0.8] text-center py-2.5 border-r border-black">{films[activeIndex].year}</span>
+              <span className="flex-1 text-center py-2.5">MIN 88</span>
+            </div>
+          </div>
+
+          {/* FILM DROPDOWN MENU */}
+          {isFilmMenuOpen && (
+            <>
+              <div style={ticketMask} className="absolute top-full left-0 mt-[-2px] bg-[#fcfaf5] text-black flex flex-col w-[250px] md:w-[280px] drop-shadow-2xl z-40">
+                <div className="w-full border-t border-dashed border-gray-400"></div>
+
+                <div className="flex flex-col py-2">
+                  {films.map((film: any, index: number) => (
+                    <div key={index} className="flex flex-col">
+                      <button 
+                       onClick={() => {
+  setActiveIndex(index);
+  setIsFilmMenuOpen(false);
+  if(scrollContainerRef.current) {
+    // UPDATED MATH: Teleport offset to index 14 * new 582 height multiplier
+    scrollContainerRef.current.scrollTo({ top: (14 + index) * 582, behavior: 'smooth' });
+  }
+}}
+                        className="flex items-center justify-between px-6 py-3 hover:bg-gray-100 transition-colors w-full text-left"
+                      >
+                        <div className="flex items-center gap-4">
+                          <img src={film.img} alt={film.title} className="object-cover w-6 h-6 rounded" />
+                          <span className="text-[13px] font-bold tracking-wide uppercase mt-1 text-black">{film.title}</span>
+                        </div>
+                        {index === activeIndex && (
+                          <div className="w-1.5 h-1.5 bg-black rounded-full"></div>
+                        )}
+                      </button>
+                      {index < films.length - 1 && (
+                        <div className="mx-6 border-b border-dashed border-gray-300"></div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+                <div className="h-4"></div>
+              </div>
+
+              <div className="absolute top-full left-0 w-6 h-6 bg-[#0a0a0a] rounded-full transform -translate-x-[calc(50%-2px)] -translate-y-[calc(50%+2px)] z-50 pointer-events-none" />
+              <div className="absolute top-full right-0 w-6 h-6 bg-[#0a0a0a] rounded-full transform translate-x-[calc(50%-2px)] -translate-y-[calc(50%+2px)] z-50 pointer-events-none" />
+            </>
+          )}
+        </div>
+
+        {/* Ticket Stub (Hamburger / Close Button) */}
+        <div 
+          style={ticketMask}
+          onClick={handleMenuToggle}
+          className="bg-[#fcfaf5] text-black w-20 md:w-24 border-l border-dashed border-black flex items-center justify-center cursor-pointer hover:bg-[#f0eee9] transition-colors -ml-[1px]"
+        >
+          <button aria-label="Menu" className="flex flex-col gap-[3px] items-center justify-center">
+            {isMenuOpen ? (
+              <svg className="w-8 h-8 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            ) : (
+              <>
+                <span className="block w-10 h-[3px] bg-black"></span>
+                <span className="block w-10 h-[3px] bg-black"></span>
+                <span className="block w-10 h-[3px] bg-black"></span>
+              </>
+            )}
+          </button>
+        </div>
+
+        {/* MAIN NAV DROPDOWN MENU OVERLAY */}
+        {isMenuOpen && (
+          <>
+            <div 
+              style={ticketMask}
+              className="absolute top-full right-0 mt-[-2px] bg-[#fcfaf5] text-black flex flex-col w-[330px] md:w-[376px] drop-shadow-2xl z-40"
+            >
+              <div className="w-full border-t border-dashed border-gray-400"></div>
+
+              <div className="px-8 py-8 flex flex-col gap-3">
+                <Link href="/work" className="flex items-baseline gap-4 group">
+                  <span className="text-sm font-medium text-gray-400 group-hover:text-black transition-colors">01</span>
+                  <span className="text-[32px] md:text-[40px] font-bold tracking-tight leading-none group-hover:underline">WORK</span>
+                </Link>
+                <Link href="/about" className="flex items-baseline gap-4 group">
+                  <span className="text-sm font-medium text-gray-400 group-hover:text-black transition-colors">02</span>
+                  <span className="text-[32px] md:text-[40px] font-bold tracking-tight leading-none group-hover:underline">ABOUT</span>
+                </Link>
+                <Link href="/contact" className="flex items-baseline gap-4 group">
+                  <span className="text-sm font-medium text-gray-400 group-hover:text-black transition-colors">03</span>
+                  <span className="text-[32px] md:text-[40px] font-bold tracking-tight leading-none group-hover:underline">CONTACT</span>
+                </Link>
+              </div>
+
+              <div className="border-t border-dashed border-gray-400 px-8 py-5 flex gap-8 text-[11px] font-bold text-gray-500 tracking-[0.15em]">
+                <Link href="#" className="hover:text-black transition-colors">COOKIE</Link>
+                <Link href="#" className="hover:text-black transition-colors">TERMS</Link>
+                <Link href="#" className="hover:text-black transition-colors">PRIVACY</Link>
+              </div>
+
+              <div className="border-t border-dashed border-gray-400 px-8 py-5 flex gap-5 text-black">
+                <Link href="#" aria-label="Instagram" className="hover:opacity-60 transition-opacity">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                </Link>
+                <Link href="#" aria-label="Facebook" className="hover:opacity-60 transition-opacity">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+                </Link>
+                <Link href="#" aria-label="LinkedIn" className="hover:opacity-60 transition-opacity">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                </Link>
+              </div>
+
+              <div className="border-t border-dashed border-gray-400 px-8 py-5">
+                <p className="text-[10px] text-gray-500 font-semibold tracking-[0.1em]">
+                  ©2024. SIENA FILM FOUNDATION.
+                </p>
+              </div>
+            </div>
+            
+            <div className="absolute top-full right-20 md:right-24 w-6 h-6 bg-[#0a0a0a] rounded-full transform translate-x-1/2 -translate-y-[calc(50%+2px)] z-50 pointer-events-none" />
+          </>
+        )}
+      </div>
+    </header>
+  );
+}

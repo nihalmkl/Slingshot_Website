@@ -1,26 +1,116 @@
 @import "tailwindcss";
 
+@theme {
+  --font-sans: "NB International", Arial, sans-serif;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --siena-dark: #000000; 
+  --siena-cream: #faf7ef; 
+  --siena-text-light: #faf7ef
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--siena-dark);
+  color: var(--siena-text-light);
+  font-family: var(--font-sans);
+  font-size: 20px;
+  line-height: 26px;
+  font-weight: 400;
+  font-style: normal;
+  font-variant: normal;
+  letter-spacing: normal;
+  word-spacing: 0px;
+  
+  /* Font smoothing for better rendering of premium fonts */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
+
+/* Base ticket stub mask with cutouts */
+.ticket-mask {
+  mask-image: radial-gradient(circle at top left, transparent 15px, black 15.5px),
+              radial-gradient(circle at top right, transparent 15px, black 15.5px),
+              radial-gradient(circle at bottom left, transparent 15px, black 15.5px),
+              radial-gradient(circle at bottom right, transparent 15px, black 15.5px);
+  mask-position: top left, top right, bottom left, bottom right;
+  mask-size: 51% 51%;
+  mask-repeat: no-repeat;
+}
+
+/* The left side of the ticket - has cutouts and dashed separator on the right */
+.ticket-left-mask {
+  mask-image: radial-gradient(circle at top left, transparent 15px, black 15.5px),
+              linear-gradient(to bottom, black 0%, black 100%),
+              radial-gradient(circle at bottom left, transparent 15px, black 15.5px);
+  mask-position: top left, top right, bottom left, bottom right;
+  mask-size: 51% 51%, 49% 100%, 51% 51%;
+  mask-repeat: no-repeat;
+  border-right-width: 2px;
+  border-right-style: dashed;
+  border-right-color: #8c8c8c;
+}
+
+/* The right side of the ticket (the hamburger stub) - has cutouts on its own */
+.ticket-right-mask {
+  mask-image: radial-gradient(circle at top right, transparent 15px, black 15.5px),
+              radial-gradient(circle at bottom right, transparent 15px, black 15.5px);
+  mask-position: top right, bottom right;
+  mask-size: 100% 51%;
+  mask-repeat: no-repeat;
+}
+
+/* Apply the full ticket mask for the explore button stub */
+.explore-button-mask {
+  mask-image: radial-gradient(circle at top left, transparent 15px, black 15.5px),
+              radial-gradient(circle at top right, transparent 15px, black 15.5px),
+              radial-gradient(circle at bottom left, transparent 15px, black 15.5px),
+              radial-gradient(circle at bottom right, transparent 15px, black 15.5px);
+  mask-position: top left, top right, bottom left, bottom right;
+  mask-size: 51% 51%;
+  mask-repeat: no-repeat;
+}
+
+/* Main container is a simpler shape, but with soft rounded corners overall and cutouts */
+/* Standard rounded corners with inverted corners at the top */
+.main-container-mask {
+  mask-image: radial-gradient(circle at top left, transparent 18px, black 18.5px),
+              linear-gradient(to bottom, black 0%, black 100%),
+              radial-gradient(circle at top right, transparent 18px, black 18.5px);
+  mask-position: top left, top right, top right; /* Added extra top right for gradient */
+  mask-size: 51% 51%, 49% 100%, 51% 51%;
+  mask-repeat: no-repeat;
+}
+
+/* Approximate the distressed film title font using a text mask and texture */
+/* For a real distressed font, you'd load specific webfont files */
+.distressed-title {
+  position: relative;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  background-image: url('https://www.transparenttextures.com/patterns/black-linen.png'); /* A free linen texture */
+  background-size: 300px;
+  filter: contrast(150%) brightness(120%);
+}
+
+.distressed-title::after {
+  content: "ANA MAXIM";
+  position: absolute;
+  top: 0; left: 0;
+  color: white;
+  opacity: 0.1;
+  z-index: -1;
+}
+
+/* Festival logo - mock simple one */
+.camel-logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+

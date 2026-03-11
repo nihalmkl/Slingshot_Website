@@ -1,10 +1,12 @@
-import HomeSection from '@/components/home/HomeSection'
+
+import WorkSection from '@/components/work/WorkSection'
+
 import React from 'react'
 
 
 const page = () => {
   return (
-    <HomeSection/>
+    <WorkSection/>
   )
 }
 
