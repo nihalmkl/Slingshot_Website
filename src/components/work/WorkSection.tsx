@@ -75,12 +75,12 @@ export default function WorkSection() {
         }
         .animate-marquee-left {
           display: flex;
-          animation: marquee-left 120s linear infinite;
+          animation: marquee-left 180s linear infinite;
           width: max-content;
         }
         .animate-marquee-right {
           display: flex;
-          animation: marquee-right 120s linear infinite;
+          animation: marquee-right 180s linear infinite;
           width: max-content;
         }
         .animate-marquee-left:hover, .animate-marquee-right:hover {
