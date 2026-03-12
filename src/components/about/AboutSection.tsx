@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import Header from '../nav/Header';
+import SphereGallery from './SphereGallery';
 
 // ─── IMAGE DATA ──────────────────────────────────────────────────────────────
 interface FilmImage {
@@ -11,46 +12,42 @@ interface FilmImage {
   alt: string
 }
 
+
 const images: FilmImage[] = [
   { id: 1,  src: '/assets/images/firstman.jpg', alt: 'Film still 1' },
-  { id: 2,  src: '/assets/images/first1.webp', alt: 'Film still 2' },
+  { id: 2,  src: '/assets/images/first1.webp',  alt: 'Film still 2' },
   { id: 3,  src: '/assets/images/firstman.jpg', alt: 'Film still 3' },
-  { id: 4,  src: '/assets/images/first2.webp', alt: 'Film still 4' },
+  { id: 4,  src: '/assets/images/first2.webp',  alt: 'Film still 4' },
   { id: 5,  src: '/assets/images/firstman.jpg', alt: 'Film still 5' },
   { id: 6,  src: '/assets/images/firstman.jpg', alt: 'Film still 6' },
-  { id: 7,  src: '/assets/images/first2.webp', alt: 'Film still 7' },
+  { id: 7,  src: '/assets/images/first2.webp',  alt: 'Film still 7' },
   { id: 8,  src: '/assets/images/firstman.jpg', alt: 'Film still 8' },
-  { id: 9,  src: '/assets/images/first2.webp', alt: 'Film still 9' },
+  { id: 9,  src: '/assets/images/first2.webp',  alt: 'Film still 9' },
   { id: 10, src: '/assets/images/firstman.jpg', alt: 'Film still 10' },
   { id: 11, src: '/assets/images/firstman.jpg', alt: 'Film still 11' },
-  { id: 12, src: '/assets/images/first2.webp', alt: 'Film still 12' },
-  { id: 13, src: '/assets/images/first1.webp', alt: 'Film still 13' },
-  { id: 14, src: '/assets/images/first2.webp', alt: 'Film still 14' },
+  { id: 12, src: '/assets/images/first2.webp',  alt: 'Film still 12' },
+  { id: 13, src: '/assets/images/first1.webp',  alt: 'Film still 13' },
+  { id: 14, src: '/assets/images/first2.webp',  alt: 'Film still 14' },
   { id: 15, src: '/assets/images/firstman.jpg', alt: 'Film still 15' },
-  { id: 16, src: '/assets/images/first1.webp', alt: 'Film still 16' },
+  { id: 16, src: '/assets/images/first1.webp',  alt: 'Film still 16' },
   { id: 17, src: '/assets/images/firstman.jpg', alt: 'Film still 17' },
-  { id: 18, src: '/assets/images/first1.webp', alt: 'Film still 18' },
+  { id: 18, src: '/assets/images/first1.webp',  alt: 'Film still 18' },
   { id: 19, src: '/assets/images/firstman.jpg', alt: 'Film still 19' },
-  { id: 20, src: '/assets/images/first1.webp', alt: 'Film still 20' },
+  { id: 20, src: '/assets/images/first1.webp',  alt: 'Film still 20' },
   { id: 21, src: '/assets/images/firstman.jpg', alt: 'Film still 21' },
-  { id: 22, src: '/assets/images/first2.webp', alt: 'Film still 22' },
+  { id: 22, src: '/assets/images/first2.webp',  alt: 'Film still 22' },
   { id: 23, src: '/assets/images/firstman.jpg', alt: 'Film still 23' },
-  { id: 24, src: '/assets/images/first1.webp', alt: 'Film still 24' },
+  { id: 24, src: '/assets/images/first1.webp',  alt: 'Film still 24' },
   { id: 25, src: '/assets/images/firstman.jpg', alt: 'Film still 25' },
-]
+];
+
 
 interface RowConfig {
   imageIds: number[]
   widthPercent: number
 }
 
-// EXACTLY 4 ROWS
-const rows: RowConfig[] = [
-  { imageIds: [1, 2, 3, 4, 5],        widthPercent: 92 },
-  { imageIds: [6, 7, 8, 9, 10, 11],   widthPercent: 100 },
-  { imageIds: [12, 13, 14, 15, 16],   widthPercent: 95 },
-  { imageIds: [17, 18, 19, 20, 21],   widthPercent: 88 },
-]
+
 
 // ─── MAIN PAGE COMPONENT ─────────────────────────────────────────────────────
 const AboutSection: React.FC = () => {
@@ -88,96 +85,161 @@ const AboutSection: React.FC = () => {
         </defs>
       </svg>
 
-      <div className="w-full max-w-[1600px] mx-auto px-6 md:px-10 flex flex-col relative">
-        <div className="relative w-full pt-8 pb-4 z-50">
-          <Header
-            films={headerFilms} 
-            activeIndex={activeIndex} 
-            setActiveIndex={setActiveIndex} 
-            scrollContainerRef={wrapperRef} 
-          />
+     <div className="w-full max-w-[1600px] mx-auto px-6 md:px-10 flex flex-col relative min-h-screen">
+  <div className="relative w-full pt-8 pb-4 z-50">
+    <Header
+      films={headerFilms} 
+      activeIndex={activeIndex} 
+      setActiveIndex={setActiveIndex} 
+      scrollContainerRef={wrapperRef} 
+    />
+  </div>
+
+  {/* ─── SECTION 1: THREE PANELS ─── */}
+  {/* Added mt-12 md:mt-20 to push the grid down from the menu bar */}
+  <div className="w-full mt-12 md:mt-20 mb-20 md:mb-32">
+    <div className="grid grid-cols-1 md:grid-cols-[1.2fr_3.5fr_1.2fr] gap-4 md:gap-6 w-full h-auto md:h-[75vh]">
+      
+      <div className="relative h-[60vh] md:h-[74vh] border border-dashed border-[#555] rounded-xl overflow-hidden flex flex-col items-center justify-end">
+  
+  {/* Inline SVG to guarantee the perfect curved image cutting. 
+      (If you already have a working #gothic-arch defined globally, you can safely delete this <svg> block!) */}
+  <svg width="0" height="0" className="absolute pointer-events-none">
+    <defs>
+      <clipPath id="gothic-arch" clipPathUnits="objectBoundingBox">
+        {/* Starts bottom-left, goes up, curves to a top point, curves back down to bottom-right */}
+        <path d="M 0.05,1 L 0.95,1 L 0.95,0.45 Q 0.95,0.15 0.5,0 Q 0.05,0.15 0.05,0.45 Z" />
+      </clipPath>
+    </defs>
+  </svg>
+
+  {/* OVERLAY DASHED LINES */}
+  <div className="absolute inset-0 pointer-events-none z-10 overflow-hidden">
+    {/* 1. Straight horizontal line (Adjusted to 10% so it's not too far down) */}
+    <div className="absolute top-[10%] left-0 w-full border-t border-dashed border-[#555]"></div>
+    
+    {/* 2. Curved dashed line 
+        MATH SECRET: If top is -10% and height is 20%, the bottom curve sits flawlessly on the 10% line! */}
+    <div className="absolute top-[-10%] left-0 w-full h-[20%] rounded-[100%] border border-dashed border-[#555]"></div>
+  </div>
+
+  <div className="w-full h-[90%] z-0 relative flex justify-center ">
+    <div 
+      className="w-full h-full bg-gray-900 relative"
+      style={{ clipPath: 'url(#gothic-arch)' }}
+    >
+      <img 
+        src="assets/images/first1.webp" 
+        alt="Portrait Left" 
+        className="absolute inset-0 w-full h-full object-cover grayscale-[40%] contrast-125 opacity-90"
+      />
+    </div>
+  </div>
+</div>
+
+      {/* --- CENTER PANEL --- */}
+      {/* REMOVED overflow-hidden so the bottom button is not cut off */}
+      <div className="relative h-[60vh] w-[1000px] md:h-[74vh] border border-dashed border-[#444] rounded-xl flex flex-col items-center justify-between py-10 px-4 md:px-10">
+        
+        <div className="text-center flex flex-col z-20 mt-4">
+          <span className="text-[10px] md:text-[12px] tracking-[0.2em] text-gray-400">SIENA FILM</span>
+          <span className="text-[10px] md:text-[12px] tracking-[0.2em] text-gray-400">FOUNDATION IS A</span>
+        </div>
+        
+        {/* Perfectly aligned lines and text */}
+        <div className="relative w-full flex-1 flex flex-col items-center justify-center my-8 md:my-12 max-h-[300px] md:max-h-[400px]">
+    
+    {/* 4 Background Lines spanning the FULL width */}
+    <div className="absolute inset-0 flex flex-col justify-between z-0 pointer-events-none">
+      
+      <div className="-mx-4 md:-mx-10 border-t border-[#e5e4df] h-[1.5px]"></div>
+      <div className="-mx-4 md:-mx-10 border-t border-[#e5e4df] h-[1.5px]"></div>
+      <div className="-mx-4 md:-mx-10 border-t border-[#e5e4df] h-[1.5px]"></div>
+      <div className="-mx-4 md:-mx-10 border-t border-[#e5e4df] h-[1.5px]"></div>
+    </div>
+    
+    {/* Text blocks mapping exactly to the 3 spaces between the 4 lines */}
+    <div className="z-10 flex flex-col items-center justify-between h-full w-full">
+      <div className="flex-1 flex items-center justify-center">
+        <p className="px-6 text-4xl sm:text-5xl md:text-6xl lg:text-[75px] font-medium tracking-tight uppercase leading-[0.1] text-white">
+          Film
+        </p>
+      </div>
+      <div className="flex-1 flex items-center justify-center">
+        <p className="px-6 text-4xl sm:text-5xl md:text-6xl lg:text-[75px] font-medium tracking-tight uppercase leading-[0.1] text-white">
+          Production
+        </p>
+      </div>
+      <div className="flex-1 flex items-center justify-center">
+        <p className="px-6 text-4xl sm:text-5xl md:text-6xl lg:text-[75px] font-medium tracking-tight uppercase leading-[0.1] text-white">
+          House
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+        <div className="text-center flex flex-col z-20 mb-6">
+          <span className="text-[10px] md:text-[12px] tracking-[0.2em] text-gray-400">DEDICATED TO CRAFTING</span>
+          <span className="text-[10px] md:text-[12px] tracking-[0.2em] text-gray-400">GROUNDBREAKING NARRATIVES</span>
         </div>
 
-        {/* ─── SECTION 1: THREE PANELS ─── */}
-        <div className="w-full mt-4 md:mt-10 mb-20 md:mb-32">
-          <div className="grid grid-cols-1 md:grid-cols-[1.2fr_3.5fr_1.2fr] gap-4 md:gap-6 w-full h-auto md:h-[75vh]">
-            
-            {/* --- LEFT PANEL --- */}
-            <div className="relative h-[60vh] md:h-full border border-dashed border-[#444] rounded-xl overflow-hidden flex flex-col items-center justify-end p-2 md:p-3">
-              <div className="absolute inset-0 pointer-events-none z-10 overflow-hidden">
-                <div className="absolute top-[18%] left-0 w-full border-t border-dashed border-[#555]"></div>
-                <div className="absolute top-[-32%] left-[-10%] w-[120%] h-[50%] rounded-[100%] border border-dashed border-[#555]"></div>
-              </div>
-              <div className="w-full h-[82%] z-0 relative flex justify-center">
-                <div 
-                  className="w-full h-full bg-gray-900 relative"
-                  style={{ clipPath: 'url(#gothic-arch)' }}
-                >
-                  <img 
-                    src="assets/images/first1.webp" 
-                    alt="Portrait Left" 
-                    className="absolute inset-0 w-full h-full object-cover grayscale-[40%] contrast-125 opacity-90"
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* --- CENTER PANEL --- */}
-            <div className="relative h-[60vh] md:h-full border border-dashed border-[#444] rounded-xl flex flex-col items-center justify-between py-10 px-4 md:px-10 overflow-hidden">
-              <div className="text-center flex flex-col z-20 mt-2">
-                <span className="text-[10px] md:text-[12px] tracking-[0.15em] text-gray-400">SLINGSHOT FILM</span>
-                <span className="text-[10px] md:text-[12px] tracking-[0.15em] text-gray-400">FOUNDATION IS A</span>
-              </div>
-              <div className="relative w-full flex-1 flex flex-col items-center justify-center my-4">
-                <div className="absolute inset-0 flex flex-col justify-evenly z-0 pointer-events-none w-full py-[15%]">
-                  <div className="w-full border-t border-[#444]"></div>
-                  <div className="w-full border-t border-[#444]"></div>
-                  <div className="w-full border-t border-[#444]"></div>
-                  <div className="w-full border-t border-[#444]"></div>
-                </div>
-                <div className="z-10 flex flex-col items-center justify-between h-[65%] w-full">
-                  <h2 className="bg-black px-6 text-5xl md:text-6xl lg:text-[75px] font-medium tracking-tight uppercase leading-none">Film</h2>
-                  <h2 className="bg-black px-6 text-5xl md:text-6xl lg:text-[75px] font-medium tracking-tight uppercase leading-none">Production</h2>
-                  <h2 className="bg-black px-6 text-5xl md:text-6xl lg:text-[75px] font-medium tracking-tight uppercase leading-none">House</h2>
-                </div>
-              </div>
-              <div className="text-center flex flex-col z-20 mb-4">
-                <span className="text-[10px] md:text-[12px] tracking-[0.15em] text-gray-400">DEDICATED TO CRAFTING</span>
-                <span className="text-[10px] md:text-[12px] tracking-[0.15em] text-gray-400">GROUNDBREAKING NARRATIVES</span>
-              </div>
-              <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 bg-black p-1 flex items-center justify-center">
-                <div className="bg-white rounded-full w-8 h-8 flex items-center justify-center text-black cursor-pointer hover:scale-105 transition-transform duration-300 ">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <line x1="12" y1="5" x2="12" y2="19"></line>
-                    <polyline points="19 12 12 19 5 12"></polyline>
-                  </svg>
-                </div>
-              </div>
-            </div>
-
-            {/* --- RIGHT PANEL --- */}
-            <div className="relative h-[60vh] md:h-full border border-dashed border-[#444] rounded-xl overflow-hidden flex flex-col items-center justify-end p-2 md:p-3">
-              <div className="absolute inset-0 pointer-events-none z-10 overflow-hidden">
-                <div className="absolute top-[18%] left-0 w-full border-t border-dashed border-[#555]"></div>
-                <div className="absolute top-[-32%] left-[-10%] w-[120%] h-[50%] rounded-[100%] border border-dashed border-[#555]"></div>
-              </div>
-              <div className="w-full h-[82%] z-0 relative flex justify-center">
-                <div 
-                  className="w-full h-full bg-gray-900 relative"
-                  style={{ clipPath: 'url(#gothic-arch)' }}
-                >
-                  <img 
-                    src="assets/images/first2.webp" 
-                    alt="Portrait Right" 
-                    className="absolute inset-0 w-full h-full object-cover grayscale-[40%] contrast-125 opacity-90"
-                  />
-                </div>
-              </div>
-            </div>
-
+        {/* The Down Button */}
+        {/* Added bg-black and px-4 to cut cleanly through the dashed border */}
+        <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 bg-black px-4 flex items-center justify-center z-50">
+          <div className="bg-white rounded-full w-8 h-8 flex items-center justify-center text-black cursor-pointer hover:scale-105 transition-transform duration-300">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <polyline points="19 12 12 19 5 12"></polyline>
+            </svg>
           </div>
         </div>
+
       </div>
+
+      {/* --- RIGHT PANEL --- */}
+      <div className="relative h-[60vh] md:h-[74vh] border border-dashed border-[#555] rounded-xl overflow-hidden flex flex-col items-center justify-end">
+  
+  {/* Inline SVG to guarantee the perfect curved image cutting. 
+      (If you already have a working #gothic-arch defined globally, you can safely delete this <svg> block!) */}
+  <svg width="0" height="0" className="absolute pointer-events-none">
+    <defs>
+      <clipPath id="gothic-arch" clipPathUnits="objectBoundingBox">
+        {/* Starts bottom-left, goes up, curves to a top point, curves back down to bottom-right */}
+        <path d="M 0.05,1 L 0.95,1 L 0.95,0.45 Q 0.95,0.15 0.5,0 Q 0.05,0.15 0.05,0.45 Z" />
+      </clipPath>
+    </defs>
+  </svg>
+
+  {/* OVERLAY DASHED LINES */}
+  <div className="absolute inset-0 pointer-events-none z-10 overflow-hidden">
+    {/* 1. Straight horizontal line (Adjusted to 10% so it's not too far down) */}
+    <div className="absolute top-[10%] left-0 w-full border-t border-dashed border-[#555]"></div>
+    
+    {/* 2. Curved dashed line 
+        MATH SECRET: If top is -10% and height is 20%, the bottom curve sits flawlessly on the 10% line! */}
+    <div className="absolute top-[-10%] left-0 w-full h-[20%] rounded-[100%] border border-dashed border-[#555]"></div>
+  </div>
+
+  {/* IMAGE CONTAINER */}
+  {/* Height is perfectly set to 90% so the absolute top of the image touches the 10% dashed line */}
+  <div className="w-full h-[90%] z-0 relative flex justify-center ">
+    <div 
+      className="w-full h-full bg-gray-900 relative"
+      style={{ clipPath: 'url(#gothic-arch)' }}
+    >
+      <img 
+        src="assets/images/first2.webp" 
+        alt="Portrait Left" 
+        className="absolute inset-0 w-full h-full object-cover grayscale-[40%] contrast-125 opacity-90"
+      />
+    </div>
+  </div>
+</div>
+
+    </div>
+  </div>
+</div>
 
       {/* ─── SECTION 2: TYPOGRAPHY ─── */}
       <div className="w-full max-w-[1600px] mx-auto px-6 md:px-10 text-white pt-10 md:pt-20 pb-10 flex flex-col relative z-10 overflow-hidden">
@@ -220,7 +282,7 @@ const AboutSection: React.FC = () => {
         </div>
 
         <div className="relative w-full h-[40vh] md:h-[50vh] mt-10 md:mt-1 flex items-end justify-between">
-          <div className="absolute -left-[5%] -bottom-[5%] text-[#FDFBF7] font-bold leading-[0.75] tracking-tighter" style={{ fontSize: '20vw' }}>ENA</div>
+          <div className="absolute -left-[70%] -bottom-[5%] text-[#FDFBF7] font-bold leading-[0.75] tracking-tighter" style={{ fontSize: '20vw' }}>SLINGSHOT</div>
           <div className="absolute right-[25%] bottom-[20%] text-right z-20">
             <ul className="text-[14px] md:text-[18px] font-bold tracking-tighter leading-tight">
               <li>ANA MAXIM</li>
@@ -237,55 +299,7 @@ const AboutSection: React.FC = () => {
         </div>
       </div>
 
-      {/* ─── SECTION 3: 4-ROW GALLERY ─── */}
-      <section className="relative w-full min-h-screen bg-black flex items-center justify-center overflow-hidden py-20 mt-20 z-20">
-        <div
-          className="absolute inset-0 pointer-events-none z-10"
-          style={{ background: 'radial-gradient(ellipse 90% 90% at 50% 50%, transparent 50%, rgba(0,0,0,0.95) 100%)' }}
-        />
-        <div
-          className="absolute inset-0 pointer-events-none z-0 opacity-[0.035]"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
-            backgroundSize: '180px',
-          }}
-        />
-
-        <div 
-          ref={wrapperRef} 
-          className="relative z-20 w-full max-w-[1200px] flex flex-col items-center gap-[4px]"
-          style={{ perspective: '1200px' }}
-        >
-          {rows.map((row, rowIdx) => (
-            <div 
-              key={rowIdx} 
-              className="flex gap-[4px] items-stretch justify-center" 
-              style={{ width: `${row.widthPercent}%` }}
-            >
-              {row.imageIds.map((imgId, colIdx) => {
-                const img = images.find((i) => i.id === imgId)!
-                return (
-                  <GalleryCell 
-                    key={imgId} 
-                    img={img} 
-                    colIdx={colIdx} 
-                    rowLength={row.imageIds.length} 
-                  />
-                )
-              })}
-            </div>
-          ))}
-        </div>
-
-        <style>{`
-          .gallery-cell-wrapper { transition: z-index 0s 0.4s; }
-          .gallery-cell-wrapper:hover { z-index: 50; transition: z-index 0s 0s; }
-          .gallery-cell { transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 0.5s ease; filter: brightness(0.85); }
-          .gallery-cell-wrapper:hover .gallery-cell { transform: scale(1.15) translateZ(40px) !important; filter: brightness(1.15); box-shadow: 0 30px 60px rgba(0,0,0,0.9); }
-          .gallery-cell img { transition: transform 0.6s ease; }
-          .gallery-cell-wrapper:hover .gallery-cell img { transform: scale(1.05); }
-        `}</style>
-      </section>
+     <SphereGallery/>
 
       {/* ─── SECTION 4: WHO WE ARE (PROFILES) ─── */}
       <section className="relative w-full max-w-[1600px] mx-auto px-6 md:px-10 py-20 flex flex-col items-center z-30">
@@ -494,20 +508,28 @@ const AboutSection: React.FC = () => {
           
         </div>
 
-        {/* Massive Footer Typography Over Lines */}
-        <div className="relative w-full flex flex-col items-center justify-center mb-24 md:mb-32 overflow-hidden">
-          <div className="absolute inset-0 flex flex-col justify-evenly pointer-events-none z-0 w-full py-[3%] md:py-[1%]">
-            <div className="w-full border-t border-[#e5e4df]"></div>
-            <div className="w-full border-t border-[#e5e4df]"></div>
-            <div className="w-full border-t border-[#e5e4df]"></div>
-            <div className="w-full border-t border-[#e5e4df]"></div>
+        <div className="relative w-full flex flex-col items-center justify-center mb-25">
+            {/* Full-width Horizontal Lines mathematically placed at exact thirds */}
+            <div className="absolute top-0 left-0 w-full h-[1.5px] bg-[#e5e4df]"></div>
+            <div className="absolute top-[33.333%] left-0 w-full h-[1.5px] bg-[#e5e4df] -translate-y-1/2"></div>
+            <div className="absolute top-[66.666%] left-0 w-full h-[1px] bg-[#e5e4df] -translate-y-1/2"></div>
+            <div className="absolute bottom-0 left-0 w-full h-[1px] bg-[#e5e4df]"></div>
+
+            {/* The Text Content */}
+            <div className="flex flex-col items-center justify-center z-10 w-full text-center">
+              
+              <h2 className="w-full text-[13vw] md:text-[9vw] lg:text-[6rem] font-medium uppercase tracking-tighter leading-[0.4] text-[#e5e4df] m-0 py-2 md:py-4">
+                PRODUCTION
+              </h2>
+              <h2 className="w-full text-[13vw] md:text-[9vw] lg:text-[6rem] font-medium uppercase tracking-tighter leading-[0.4] text-[#e5e4df] m-0 py-2 md:py-4">
+                DOCUMENTARY
+              </h2>
+              <h2 className="w-full text-[13vw] md:text-[9vw] lg:text-[6rem] font-medium uppercase tracking-tighter leading-[0.4] text-[#e5e4df] m-0 py-2 md:py-4">
+                FILM TV
+              </h2>
+            </div>
+
           </div>
-          <div className="z-10 flex flex-col items-center justify-between w-full max-w-[1400px]">
-            <h2 className="bg-black px-4 md:px-8 text-[12vw] md:text-[7.5vw] font-bold uppercase tracking-tighter leading-none text-[#e5e4df]">PRODUCTION</h2>
-            <h2 className="bg-black px-4 md:px-8 text-[12vw] md:text-[7.5vw] font-bold uppercase tracking-tighter leading-none text-[#e5e4df]">DOCUMENTARY</h2>
-            <h2 className="bg-black px-4 md:px-8 text-[12vw] md:text-[7.5vw] font-bold uppercase tracking-tighter leading-none text-[#e5e4df]">FILM TV</h2>
-          </div>
-        </div>
 
         {/* Footer Bottom Content (3 Columns) - Grouped closer together */}
         <div className="w-full max-w-[1000px] mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-12 items-start mb-24">
@@ -563,7 +585,7 @@ const AboutSection: React.FC = () => {
         </div>
 
         {/* ─── VERY BOTTOM BAR ─── */}
-        <div className="w-full border-t border-[#333] py-6 px-6 md:px-12 flex flex-col md:flex-row items-center justify-between text-[9px] md:text-[10px] font-bold tracking-[0.2em] uppercase text-[#888] gap-6">
+        <div className="w-full border-t border-[#333] py-3 px-6 md:px-12 flex flex-col md:flex-row items-center justify-between text-[9px] md:text-[10px] font-bold tracking-[0.2em] uppercase text-[#888] gap-6">
           
           {/* Left: Socials */}
           <div className="flex items-center gap-4">
