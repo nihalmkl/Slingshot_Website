@@ -1,38 +1,47 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
 const Corners = () => (
   <>
-      <span className="absolute -top-[4px] -left-[4px] w-3 h-3 border-t-4 border-l-4 border-white -translate-x-1 -translate-y-1 pointer-events-none" />
-      <span className="absolute -top-[4px] -right-[4px] w-3 h-3 border-t-4 border-r-4 border-white translate-x-1 -translate-y-1 pointer-events-none" />
-      <span className="absolute -bottom-[4px] -left-[4px] w-3 h-3 border-b-4 border-l-4 border-white -translate-x-1 translate-y-1 pointer-events-none" />
-      <span className="absolute -bottom-[4px] -right-[4px] w-3 h-3 border-b-4 border-r-4 border-white translate-x-1 translate-y-1 pointer-events-none" />
-    </>
+    <span className="absolute -top-[4px] -left-[4px] w-3 h-3 border-t-4 border-l-4 border-white -translate-x-1 -translate-y-1 pointer-events-none" />
+    <span className="absolute -top-[4px] -right-[4px] w-3 h-3 border-t-4 border-r-4 border-white translate-x-1 -translate-y-1 pointer-events-none" />
+    <span className="absolute -bottom-[4px] -left-[4px] w-3 h-3 border-b-4 border-l-4 border-white -translate-x-1 translate-y-1 pointer-events-none" />
+    <span className="absolute -bottom-[4px] -right-[4px] w-3 h-3 border-b-4 border-r-4 border-white translate-x-1 translate-y-1 pointer-events-none" />
+  </>
 );
 
-export default function Header({ films, activeIndex, setActiveIndex, scrollContainerRef }:any) {
+export default function Header({ films, activeIndex, setActiveIndex, scrollContainerRef }: any) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isFilmMenuOpen, setIsFilmMenuOpen] = useState(false);
+  // 1. Create a ref to store the audio object
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  // 2. Preload the audio on mount
+  useEffect(() => {
+    audioRef.current = new Audio('/assets/audio/scroll.mp4');
+    audioRef.current.load(); // Forces the browser to start downloading immediately
+  }, []);
+
+  const playSound = () => {
+    if (audioRef.current) {
+      // Reset sound to start if it's already playing
+      audioRef.current.currentTime = 0;
+      audioRef.current.play().catch(error => console.log('Audio play failed:', error));
+    }
+  };
 
   const handleMenuToggle = () => {
     const nextState = !isMenuOpen;
     setIsMenuOpen(nextState);
-
-    if (nextState) {
-      const audio = new Audio('/assets/audio/scroll.mp4');
-      audio.play().catch(error => console.log('Audio play failed:', error));
-    }
+    if (nextState) playSound();
   };
 
   const handleFilmMenuToggle = () => {
     const nextState = !isFilmMenuOpen;
     setIsFilmMenuOpen(nextState);
-    if (nextState) {
-      const audio = new Audio('/assets/audio/scroll.mp4');
-      audio.play().catch(error => console.log('Audio play failed:', error));
-    }
+    if (nextState) playSound();
   };
 
   return (
@@ -48,13 +57,13 @@ export default function Header({ films, activeIndex, setActiveIndex, scrollConta
         {/* ADDED CAMERA CORNERS HERE */}
         <Corners />
 
-        {/* Main Ticket Body (Film Selector) */}
-        <div className="relative">
+        {/* Main Ticket Body (Film Selector) - HIDDEN ON MOBILE (added hidden md:block) */}
+        <div className="relative hidden md:block">
           <div className="bg-[#fcfaf5] text-black flex flex-col w-[250px] md:w-[280px] h-full">
             <div className="flex items-center justify-between px-4 py-3 flex-1 cursor-pointer" onClick={handleFilmMenuToggle}>
               <div className="flex items-center gap-3">
                 <img src={films[activeIndex].img} alt="Current Film" className="object-cover w-10 h-10 rounded-md" />
-                <h2 className="text-[18px] md:text-[20px] leading-none font-black tracking-tight uppercase mt-1">
+                <h2 className="text-[18px] md:text-[16px] leading-none font-semibold tracking-tight uppercase mt-1">
                   {films[activeIndex].title}
                 </h2>
               </div>
@@ -66,9 +75,9 @@ export default function Header({ films, activeIndex, setActiveIndex, scrollConta
             </div>
             
             <div className="flex border-t border-black text-[8px] md:text-[9px] tracking-[0.15em] font-bold text-gray-800">
-              <span className="flex-[1.2] text-center py-2.5 border-r border-black">DOCUMENTARY</span>
-              <span className="flex-[0.8] text-center py-2.5 border-r border-black">{films[activeIndex].year}</span>
-              <span className="flex-1 text-center py-2.5">MIN 88</span>
+              <span className="flex-[1.2] text-center border-r border-black py-1">DOCUMENTARY</span>
+              <span className="flex-[0.8] text-center border-r border-black py-1">{films[activeIndex].year}</span>
+              <span className="flex-1 text-center py-1">MIN 88</span>
             </div>
           </div>
 
@@ -89,7 +98,7 @@ export default function Header({ films, activeIndex, setActiveIndex, scrollConta
                            scrollContainerRef.current.scrollTo({ top: (14 + index) * 582, behavior: 'smooth' });
                          }
                        }}
-                        className="flex items-center justify-between px-6 py-3 hover:bg-gray-100 transition-colors w-full text-left"
+                        className="flex items-center justify-between px-6 py-1 hover:bg-gray-100 transition-colors w-full text-left"
                       >
                         <div className="flex items-center gap-4">
                           <img src={film.img} alt={film.title} className="object-cover w-6 h-6 rounded" />
@@ -115,7 +124,7 @@ export default function Header({ films, activeIndex, setActiveIndex, scrollConta
         {/* ADDED relative z-10 HERE TO BRING THE DASHED LINE TO THE FRONT */}
         <div 
           onClick={handleMenuToggle}
-          className="relative z-10 bg-[#fcfaf5] text-black w-20 md:w-24 border-l border-dashed border-black flex items-center justify-center cursor-pointer hover:bg-[#f0eee9] transition-colors -ml-[1px]"
+          className="relative z-10 bg-[#fcfaf5] text-black w-[64px] h-[64px] md:h-auto md:w-24 border-l-0 md:border-l border-dashed border-black flex items-center justify-center cursor-pointer hover:bg-[#f0eee9] transition-colors -ml-[1px]"
         >
           <button aria-label="Menu" className="flex flex-col gap-[3px] items-center justify-center">
             {isMenuOpen ? (
@@ -124,9 +133,9 @@ export default function Header({ films, activeIndex, setActiveIndex, scrollConta
               </svg>
             ) : (
               <>
-                <span className="block w-10 h-[3px] bg-black"></span>
-                <span className="block w-10 h-[3px] bg-black"></span>
-                <span className="block w-10 h-[3px] bg-black"></span>
+                <span className="block w-8 md:w-10 h-[3px] bg-black"></span>
+                <span className="block w-8 md:w-10 h-[3px] bg-black"></span>
+                <span className="block w-8 md:w-10 h-[3px] bg-black"></span>
               </>
             )}
           </button>
@@ -135,31 +144,31 @@ export default function Header({ films, activeIndex, setActiveIndex, scrollConta
         {/* MAIN NAV DROPDOWN MENU OVERLAY */}
         {isMenuOpen && (
           <>
-            <div className="absolute top-full right-0 mt-[-2px] bg-[#fcfaf5] text-black flex flex-col w-[330px] md:w-[376px] drop-shadow-2xl z-40">
+            <div className="absolute top-full right-0 mt-[-2px] bg-[#fcfaf5] text-black flex flex-col w-[280px] md:w-[376px] drop-shadow-2xl z-40">
               <div className="w-full border-t border-dashed border-gray-400"></div>
 
               <div className="px-8 py-8 flex flex-col gap-3">
                 <Link href="/work" className="flex items-baseline gap-4 group">
                   <span className="text-sm font-medium text-gray-400 group-hover:text-black transition-colors">01</span>
-                  <span className="text-[32px] md:text-[40px] font-bold tracking-tight leading-none group-hover:underline">WORK</span>
+                  <span className="text-[32px] md:text-[40px] font-bold tracking-tight leading-none group-hover:text-black/70">WORK</span>
                 </Link>
                 <Link href="/about" className="flex items-baseline gap-4 group">
                   <span className="text-sm font-medium text-gray-400 group-hover:text-black transition-colors">02</span>
-                  <span className="text-[32px] md:text-[40px] font-bold tracking-tight leading-none group-hover:underline">ABOUT</span>
+                  <span className="text-[32px] md:text-[40px] font-bold tracking-tight leading-none group-hover:text-black/70">ABOUT</span>
                 </Link>
                 <Link href="/contact" className="flex items-baseline gap-4 group">
                   <span className="text-sm font-medium text-gray-400 group-hover:text-black transition-colors">03</span>
-                  <span className="text-[32px] md:text-[40px] font-bold tracking-tight leading-none group-hover:underline">CONTACT</span>
+                  <span className="text-[32px] md:text-[40px] font-bold tracking-tight leading-none group-hover:text-black/70">CONTACT</span>
                 </Link>
               </div>
 
-              <div className="border-t border-dashed border-gray-400 px-8 py-5 flex gap-8 text-[11px] font-bold text-gray-500 tracking-[0.15em]">
+              <div className="border-t border-dashed border-gray-400 px-8 py-3 flex gap-8 text-[11px] font-bold text-gray-500 tracking-[0.15em]">
                 <Link href="#" className="hover:text-black transition-colors">COOKIE</Link>
                 <Link href="#" className="hover:text-black transition-colors">TERMS</Link>
                 <Link href="#" className="hover:text-black transition-colors">PRIVACY</Link>
               </div>
 
-              <div className="border-t border-dashed border-gray-400 px-8 py-5 flex gap-5 text-black">
+              <div className="border-t border-dashed border-gray-400 px-8 py-3 flex gap-5 text-black">
                 <Link href="#" aria-label="Instagram" className="hover:opacity-60 transition-opacity">
                   <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
                 </Link>
@@ -171,7 +180,7 @@ export default function Header({ films, activeIndex, setActiveIndex, scrollConta
                 </Link>
               </div>
 
-              <div className="border-t border-dashed border-gray-400 px-8 py-5">
+              <div className="border-t border-dashed border-gray-400 px-8 py-2">
                 <p className="text-[10px] text-gray-500 font-semibold tracking-[0.1em]">
                   ©2024. SIENA FILM FOUNDATION.
                 </p>
