@@ -3,20 +3,18 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
+const Corners = () => (
+  <>
+      <span className="absolute -top-[4px] -left-[4px] w-3 h-3 border-t-4 border-l-4 border-white -translate-x-1 -translate-y-1 pointer-events-none" />
+      <span className="absolute -top-[4px] -right-[4px] w-3 h-3 border-t-4 border-r-4 border-white translate-x-1 -translate-y-1 pointer-events-none" />
+      <span className="absolute -bottom-[4px] -left-[4px] w-3 h-3 border-b-4 border-l-4 border-white -translate-x-1 translate-y-1 pointer-events-none" />
+      <span className="absolute -bottom-[4px] -right-[4px] w-3 h-3 border-b-4 border-r-4 border-white translate-x-1 translate-y-1 pointer-events-none" />
+    </>
+);
+
 export default function Header({ films, activeIndex, setActiveIndex, scrollContainerRef }:any) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isFilmMenuOpen, setIsFilmMenuOpen] = useState(false);
-
-  const ticketMask = {
-    WebkitMaskImage: 'radial-gradient(circle at 0 0, transparent 12px, black 12.5px), radial-gradient(circle at 100% 0, transparent 12px, black 12.5px), radial-gradient(circle at 0 100%, transparent 12px, black 12.5px), radial-gradient(circle at 100% 100%, transparent 12px, black 12.5px)',
-    maskImage: 'radial-gradient(circle at 0 0, transparent 12px, black 12.5px), radial-gradient(circle at 100% 0, transparent 12px, black 12.5px), radial-gradient(circle at 0 100%, transparent 12px, black 12.5px), radial-gradient(circle at 100% 100%, transparent 12px, black 12.5px)',
-    WebkitMaskPosition: 'top left, top right, bottom left, bottom right',
-    maskPosition: 'top left, top right, bottom left, bottom right',
-    WebkitMaskSize: '51% 51%',
-    maskSize: '51% 51%',
-    WebkitMaskRepeat: 'no-repeat',
-    maskRepeat: 'no-repeat'
-  };
 
   const handleMenuToggle = () => {
     const nextState = !isMenuOpen;
@@ -47,9 +45,12 @@ export default function Header({ films, activeIndex, setActiveIndex, scrollConta
 
       <div className="absolute top-0 right-0 md:-top-4 md:-right-4 z-50 flex drop-shadow-2xl pointer-events-auto">
         
+        {/* ADDED CAMERA CORNERS HERE */}
+        <Corners />
+
         {/* Main Ticket Body (Film Selector) */}
         <div className="relative">
-          <div style={ticketMask} className="bg-[#fcfaf5] text-black flex flex-col w-[250px] md:w-[280px] h-full">
+          <div className="bg-[#fcfaf5] text-black flex flex-col w-[250px] md:w-[280px] h-full">
             <div className="flex items-center justify-between px-4 py-3 flex-1 cursor-pointer" onClick={handleFilmMenuToggle}>
               <div className="flex items-center gap-3">
                 <img src={films[activeIndex].img} alt="Current Film" className="object-cover w-10 h-10 rounded-md" />
@@ -74,7 +75,7 @@ export default function Header({ films, activeIndex, setActiveIndex, scrollConta
           {/* FILM DROPDOWN MENU */}
           {isFilmMenuOpen && (
             <>
-              <div style={ticketMask} className="absolute top-full left-0 mt-[-2px] bg-[#fcfaf5] text-black flex flex-col w-[250px] md:w-[280px] drop-shadow-2xl z-40">
+              <div className="absolute top-full left-0 mt-[-2px] bg-[#fcfaf5] text-black flex flex-col w-[250px] md:w-[280px] drop-shadow-2xl z-40">
                 <div className="w-full border-t border-dashed border-gray-400"></div>
 
                 <div className="flex flex-col py-2">
@@ -82,13 +83,12 @@ export default function Header({ films, activeIndex, setActiveIndex, scrollConta
                     <div key={index} className="flex flex-col">
                       <button 
                        onClick={() => {
-  setActiveIndex(index);
-  setIsFilmMenuOpen(false);
-  if(scrollContainerRef.current) {
-    // UPDATED MATH: Teleport offset to index 14 * new 582 height multiplier
-    scrollContainerRef.current.scrollTo({ top: (14 + index) * 582, behavior: 'smooth' });
-  }
-}}
+                         setActiveIndex(index);
+                         setIsFilmMenuOpen(false);
+                         if(scrollContainerRef.current) {
+                           scrollContainerRef.current.scrollTo({ top: (14 + index) * 582, behavior: 'smooth' });
+                         }
+                       }}
                         className="flex items-center justify-between px-6 py-3 hover:bg-gray-100 transition-colors w-full text-left"
                       >
                         <div className="flex items-center gap-4">
@@ -107,18 +107,15 @@ export default function Header({ films, activeIndex, setActiveIndex, scrollConta
                 </div>
                 <div className="h-4"></div>
               </div>
-
-              <div className="absolute top-full left-0 w-6 h-6 bg-[#0a0a0a] rounded-full transform -translate-x-[calc(50%-2px)] -translate-y-[calc(50%+2px)] z-50 pointer-events-none" />
-              <div className="absolute top-full right-0 w-6 h-6 bg-[#0a0a0a] rounded-full transform translate-x-[calc(50%-2px)] -translate-y-[calc(50%+2px)] z-50 pointer-events-none" />
             </>
           )}
         </div>
 
         {/* Ticket Stub (Hamburger / Close Button) */}
+        {/* ADDED relative z-10 HERE TO BRING THE DASHED LINE TO THE FRONT */}
         <div 
-          style={ticketMask}
           onClick={handleMenuToggle}
-          className="bg-[#fcfaf5] text-black w-20 md:w-24 border-l border-dashed border-black flex items-center justify-center cursor-pointer hover:bg-[#f0eee9] transition-colors -ml-[1px]"
+          className="relative z-10 bg-[#fcfaf5] text-black w-20 md:w-24 border-l border-dashed border-black flex items-center justify-center cursor-pointer hover:bg-[#f0eee9] transition-colors -ml-[1px]"
         >
           <button aria-label="Menu" className="flex flex-col gap-[3px] items-center justify-center">
             {isMenuOpen ? (
@@ -138,10 +135,7 @@ export default function Header({ films, activeIndex, setActiveIndex, scrollConta
         {/* MAIN NAV DROPDOWN MENU OVERLAY */}
         {isMenuOpen && (
           <>
-            <div 
-              style={ticketMask}
-              className="absolute top-full right-0 mt-[-2px] bg-[#fcfaf5] text-black flex flex-col w-[330px] md:w-[376px] drop-shadow-2xl z-40"
-            >
+            <div className="absolute top-full right-0 mt-[-2px] bg-[#fcfaf5] text-black flex flex-col w-[330px] md:w-[376px] drop-shadow-2xl z-40">
               <div className="w-full border-t border-dashed border-gray-400"></div>
 
               <div className="px-8 py-8 flex flex-col gap-3">
@@ -183,8 +177,6 @@ export default function Header({ films, activeIndex, setActiveIndex, scrollConta
                 </p>
               </div>
             </div>
-            
-            <div className="absolute top-full right-20 md:right-24 w-6 h-6 bg-[#0a0a0a] rounded-full transform translate-x-1/2 -translate-y-[calc(50%+2px)] z-50 pointer-events-none" />
           </>
         )}
       </div>
