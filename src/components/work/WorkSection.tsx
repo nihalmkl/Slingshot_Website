@@ -1,13 +1,18 @@
 'use client'
 import React, { useState, useRef } from 'react';
 import Header from '../nav/Header'; // Update path if needed
-import CustomCursor from '../cursor/Cursor'; // Update path if needed
+import CustomScroll from '../cursor/Scroll'; // Update path if needed
 import Link from 'next/link';
 
 export default function WorkSection() {
   const [activeIndex, setActiveIndex] = useState(2); 
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [viewMode, setViewMode] = useState<'footage' | 'poster'>('footage');
+
+  // --- Added: Drag to Scroll State ---
+  const [isDragging, setIsDragging] = useState(false);
+  const startX = useRef(0);
+  const scrollLeft = useRef(0);
 
   const films = [
     {
@@ -52,8 +57,31 @@ export default function WorkSection() {
     }
   ];
 
-  // Duplicated 4 times. This guarantees enough width for ultra-wide monitors to loop perfectly without gaps.
   const seamlessFilms = [...films, ...films, ...films, ...films];
+
+  // --- Added: Drag Event Handlers ---
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (!scrollContainerRef.current) return;
+    setIsDragging(true);
+    startX.current = e.pageX - scrollContainerRef.current.offsetLeft;
+    scrollLeft.current = scrollContainerRef.current.scrollLeft;
+  };
+
+  const handleMouseLeave = () => {
+    setIsDragging(false);
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging || !scrollContainerRef.current) return;
+    e.preventDefault();
+    const x = e.pageX - scrollContainerRef.current.offsetLeft;
+    const walk = (x - startX.current) * 2; // Scroll speed multiplier
+    scrollContainerRef.current.scrollLeft = scrollLeft.current - walk;
+  };
 
   return (
     <div className="relative h-screen bg-[#080808] text-white font-sans overflow-hidden selection:bg-yellow-600/30">
@@ -61,9 +89,9 @@ export default function WorkSection() {
       {/* Background Noise */}
       <div className="absolute inset-0 opacity-[0.03] pointer-events-none z-0" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E")' }}></div>
 
-      <CustomCursor />
+      <CustomScroll/>
 
-      {/* Global CSS for Marquee Animations - Slowed down to 120s */}
+      {/* Global CSS for Marquee Animations & Scrollbar Hiding */}
       <style>{`
         @keyframes marquee-left {
           0% { transform: translateX(0%); }
@@ -75,16 +103,23 @@ export default function WorkSection() {
         }
         .animate-marquee-left {
           display: flex;
-          animation: marquee-left 120s linear infinite;
+          animation: marquee-left 180s linear infinite;
           width: max-content;
         }
         .animate-marquee-right {
           display: flex;
-          animation: marquee-right 120s linear infinite;
+          animation: marquee-right 180s linear infinite;
           width: max-content;
         }
-        .animate-marquee-left:hover, .animate-marquee-right:hover {
-          animation-play-state: paused;
+        /* Hover Pause rule completely removed from here! */
+
+        /* Hide scrollbar for the horizontal footage container */
+        .no-scrollbar::-webkit-scrollbar {
+          display: none;
+        }
+        .no-scrollbar {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
         }
       `}</style>
 
@@ -170,11 +205,18 @@ export default function WorkSection() {
       </div>
 
       {/* --- CENTER: CAROUSEL / MARQUEE CONTENT --- */}
-      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full flex items-center justify-center z-10 min-h-screen">
+      <div className="absolute top-1/2 left-0 w-full transform -translate-y-1/2 z-10 min-h-screen flex items-center">
         
-        {/* FOOTAGE MODE (Horizontal Carousel - UNCHANGED) */}
+        {/* FOOTAGE MODE (Horizontal Drag Carousel) */}
         {viewMode === 'footage' && (
-          <div className="flex items-center justify-center gap-4 md:gap-6 w-max pointer-events-auto mt-20">
+          <div 
+            ref={scrollContainerRef}
+            onMouseDown={handleMouseDown}
+            onMouseLeave={handleMouseLeave}
+            onMouseUp={handleMouseUp}
+            onMouseMove={handleMouseMove}
+            className={`flex items-center gap-4 md:gap-6 w-full overflow-x-auto no-scrollbar pointer-events-auto mt-20 px-10 md:px-32 ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
+          >
             {films.map((film, index) => {
               const isActive = index === activeIndex;
               return (
@@ -185,9 +227,9 @@ export default function WorkSection() {
                     ${isActive ? 'w-[260px] h-[420px] z-20 shadow-[0_0_40px_rgba(0,0,0,0.8)] scale-100 opacity-100' : 'w-[260px] h-[430px] z-10 scale-[0.95] opacity-40 blur-[1px] hover:opacity-60'}
                   `}
                 >
-                  <img src={film.img} alt={film.title} className="absolute inset-0 w-full h-full object-cover" />
-                  <div className="absolute inset-x-0 bottom-0 h-[65%] bg-gradient-to-t from-[#050505] via-[#050505]/90 to-transparent z-10" />
-                  <div className="absolute bottom-8 left-0 right-0 px-6 flex flex-col items-center text-center z-20">
+                  <img src={film.img} alt={film.title} className="absolute inset-0 w-full h-full object-cover pointer-events-none" />
+                  <div className="absolute inset-x-0 bottom-0 h-[65%] bg-gradient-to-t from-[#050505] via-[#050505]/90 to-transparent z-10 pointer-events-none" />
+                  <div className="absolute bottom-8 left-0 right-0 px-6 flex flex-col items-center text-center z-20 pointer-events-none">
                     <div className="absolute top-[-400px] bottom-0 left-1/2 w-[1px] bg-white/20 -translate-x-1/2 pointer-events-none z-0" />
                     <p className="text-[10px] tracking-[0.4em] font-bold text-white uppercase font-serif mb-1 z-10 drop-shadow-md">{film.category}</p>
                     <h2 className={`font-sans font-medium uppercase tracking-tighter leading-none mb-6 text-white z-10 drop-shadow-lg ${isActive ? 'text-[28px] md:text-[34px]' : 'text-xl'}`}>{film.title}</h2>
@@ -214,11 +256,10 @@ export default function WorkSection() {
 
         {/* POSTER MODE (Moving Marquee Grid) */}
         {viewMode === 'poster' && (
-          <div className="flex flex-col gap-2 md:gap-3 pointer-events-auto h-screen justify-center w-full py-20 mt-10">
+          <div className="flex flex-col gap-2 md:gap-3 pointer-events-auto w-full py-20 mt-10">
             
             {/* ROW 1: LEFT TO RIGHT */}
             <div className="w-full overflow-hidden relative h-[180px]">
-              {/* Removed px-4 here so the -50% translation matches the loop perfectly */}
               <div className="animate-marquee-right flex gap-4 md:gap-6">
                 {seamlessFilms.map((film, idx) => (
                   <MarqueePosterCard key={`r1-${idx}`} film={film} />
@@ -228,7 +269,6 @@ export default function WorkSection() {
 
             {/* ROW 2: RIGHT TO LEFT */}
             <div className="w-full overflow-hidden relative h-[180px]">
-              {/* Removed px-4 here as well for perfect mathematical looping */}
               <div className="animate-marquee-left flex gap-4 md:gap-6">
                 {seamlessFilms.map((film, idx) => (
                   <MarqueePosterCard key={`r2-${idx}`} film={film} />
@@ -306,7 +346,7 @@ export default function WorkSection() {
 
         {/* 4. Absolute Right Explore Button */}
         <div className="absolute right-8 md:right-12 bottom-8">
-          <Link href="/film/movietitle" className="group relative flex items-stretch text-white hover:text-black transition-colors duration-300 cursor-pointer min-h-[46px]">
+          <Link href="/" className="group relative flex items-stretch text-white hover:text-black transition-colors duration-300 cursor-pointer min-h-[46px]">
             <div className="absolute inset-0 bg-white/0 group-hover:bg-white transition-colors duration-300 pointer-events-none" style={{ WebkitMaskImage: 'radial-gradient(circle at 0 0, transparent 5.5px, black 6px), radial-gradient(circle at 100% 0, transparent 5.5px, black 6px), radial-gradient(circle at 0 100%, transparent 5.5px, black 6px), radial-gradient(circle at 100% 100%, transparent 5.5px, black 6px), radial-gradient(circle at calc(100% - 56px) 0%, transparent 5.5px, black 6px), radial-gradient(circle at calc(100% - 56px) 100%, transparent 5.5px, black 6px)', maskImage: 'radial-gradient(circle at 0 0, transparent 5.5px, black 6px), radial-gradient(circle at 100% 0, transparent 5.5px, black 6px), radial-gradient(circle at 0 100%, transparent 5.5px, black 6px), radial-gradient(circle at 100% 100%, transparent 5.5px, black 6px), radial-gradient(circle at calc(100% - 56px) 0%, transparent 5.5px, black 6px), radial-gradient(circle at calc(100% - 56px) 100%, transparent 5.5px, black 6px)', WebkitMaskComposite: 'destination-in', maskComposite: 'intersect' }} />
             <div className="absolute top-0 left-[6px] right-[62px] border-t border-white/40 group-hover:border-white transition-colors duration-300 pointer-events-none" />
             <div className="absolute bottom-0 left-[6px] right-[62px] border-b border-white/40 group-hover:border-white transition-colors duration-300 pointer-events-none" />
@@ -340,9 +380,9 @@ export default function WorkSection() {
 const MarqueePosterCard = ({ film }: { film: any }) => (
   <div className="relative w-[180px] h-[180px] md:w-[180px] md:h-[180px] shrink-0 rounded-[10px] overflow-hidden group cursor-pointer">
     {/* Image */}
-    <img src={film.img} alt={film.title} className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+    <img src={film.img} alt={film.title} className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 pointer-events-none" />
     
     {/* Full card dark overlay for text readability */}
-    <div className="absolute inset-0 bg-black/50 z-10 transition-opacity duration-300 group-hover:opacity-70" />
+    <div className="absolute inset-0 bg-black/50 z-10 transition-opacity duration-300 group-hover:opacity-70 pointer-events-none" />
   </div>
 );
