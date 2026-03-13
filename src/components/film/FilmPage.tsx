@@ -147,7 +147,7 @@ const FilmPage: React.FC = () => {
           alt={filmTitle}
           fill
           priority
-          className="object-cover object-top opacity-80"
+          className="object-cover object-center opacity-80"
         />
 
         {/* Header Overlay */}

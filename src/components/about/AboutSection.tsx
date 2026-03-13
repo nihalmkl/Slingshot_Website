@@ -100,84 +100,169 @@ const AboutSection: React.FC = () => {
   <div className="w-full mt-12 md:mt-20 mb-20 md:mb-32">
     <div className="grid grid-cols-1 md:grid-cols-[1.2fr_3.5fr_1.2fr] gap-4 md:gap-6 w-full h-auto md:h-[75vh]">
       
-      <div className="relative h-[60vh] md:h-[74vh] border border-dashed border-[#555] rounded-xl overflow-hidden flex flex-col items-center justify-end">
+      {/* ========================================= */}
+      {/* 📱 MOBILE ONLY VIEW (Hidden on Desktop)   */}
+      {/* ========================================= */}
+      {/* ========================================= */}
+      {/* 📱 MOBILE ONLY VIEW                       */}
+      {/* ========================================= */}
+      <div className="flex md:hidden relative h-[110vh] w-full border border-dashed border-[#555] rounded-xl flex-col items-center justify-center">
+        
+        {/* Mobile SVG Mask */}
+        <svg width="0" height="0" className="absolute pointer-events-none">
+          <defs>
+            <clipPath id="mobile-gothic-arch" clipPathUnits="objectBoundingBox">
+              <path d="M 0.05,1 L 0.95,1 L 0.95,0.45 Q 0.95,0.15 0.5,0 Q 0.05,0.15 0.05,0.45 Z" />
+            </clipPath>
+          </defs>
+        </svg>
+
+        {/* HORIZONTAL AND CURVED DASHED LINES HAVE BEEN COMPLETELY REMOVED HERE 
+        */}
+
+        {/* Image Base */}
+        <div className="absolute inset-0 w-full h-[100%] bottom-0 z-0 flex justify-center">
+          <div className="w-full h-full bg-gray-900 relative" style={{ clipPath: 'url(#mobile-gothic-arch)' }}>
+            <img 
+              src="assets/images/first1.webp" 
+              alt="Mobile Hero" 
+              className="absolute inset-0 w-full h-full object-cover object-center"
+            />
+          </div>
+        </div>
+
+        {/* Overlaid Text & Lines */}
+        <div className="absolute inset-0 z-20 flex flex-col items-center justify-between py-[12%] px-4 pointer-events-none">
+          
+          <div className="text-center flex flex-col items-center z-20 mt-4">
+            <div className="relative px-8 py-6 mb-4 ">
+              <div className="relative z-10 w-[75%] md:w-[80%] flex items-end justify-center pb-2 md:pb-3">
+                <Image 
+                  src="/assets/images/sslogo-1.png" 
+                  alt="Website Logo" 
+                  width={90} 
+                  height={50} 
+                  className="object-contain w-full h-auto drop-shadow-lg"
+                />
+              </div>
+            </div>
+            <span className="text-[10px] tracking-[0.2em] text-white drop-shadow-md">SLINGSHOT FILM</span>
+            <span className="text-[10px] tracking-[0.2em] text-white drop-shadow-md">FOUNDATION IS A</span>
+          </div>
+
+          <div className="relative w-full flex flex-col items-center justify-center my-8 z-10">
+            <div className="w-[calc(100%+2rem)] -mx-4 flex flex-col">
+              
+              <div className="border-t border-white/90 flex items-center justify-center ">
+                <p className="text-[20px] font-medium tracking-widest uppercase text-white drop-shadow-lg leading-none">
+                  Film
+                </p>
+              </div>
+
+              <div className="border-t border-white/90 flex items-center justify-center ">
+                <p className="text-[20px] font-medium tracking-widest uppercase text-white drop-shadow-lg leading-none ">
+                  Production
+                </p>
+              </div>
+
+              <div className="border-t border-b border-white/90 flex items-center justify-center">
+                <p className="text-[20px] font-medium tracking-widest uppercase text-white drop-shadow-lg leading-none ">
+                  House
+                </p>
+              </div>
+
+            </div>
+          </div>
+
+          <div className="text-center flex flex-col z-20 mb-10">
+            <span className="text-[10px] tracking-[0.2em] text-white drop-shadow-md">DEDICATED TO CRAFTING</span>
+            <span className="text-[10px] tracking-[0.2em] text-white drop-shadow-md">GROUNDBREAKING NARRATIVES</span>
+          </div>
+        </div>
+        
+        {/* Mobile Down Button - Now shows fully because "overflow-hidden" was removed from the main parent */}
+        <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 px-4 flex items-center justify-center z-50 pointer-events-auto">
+          <div className="bg-white rounded-full w-8 h-8 flex items-center justify-center text-black cursor-pointer hover:scale-105 transition-transform duration-300">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <polyline points="19 12 12 19 5 12"></polyline>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+
+      {/* ========================================= */}
+      {/* 💻 DESKTOP VIEW (YOUR ORIGINAL CODE)      */}
+      {/* Note: I only added `hidden md:flex`       */}
+      {/* ========================================= */}
+
+      {/* --- LEFT PANEL --- */}
+      <div className="hidden md:flex relative h-[60vh] md:h-[74vh] border border-dashed border-[#555] rounded-xl overflow-hidden flex-col items-center justify-end">
   
-  {/* Inline SVG to guarantee the perfect curved image cutting. 
-      (If you already have a working #gothic-arch defined globally, you can safely delete this <svg> block!) */}
-  <svg width="0" height="0" className="absolute pointer-events-none">
-    <defs>
-      <clipPath id="gothic-arch" clipPathUnits="objectBoundingBox">
-        {/* Starts bottom-left, goes up, curves to a top point, curves back down to bottom-right */}
-        <path d="M 0.05,1 L 0.95,1 L 0.95,0.45 Q 0.95,0.15 0.5,0 Q 0.05,0.15 0.05,0.45 Z" />
-      </clipPath>
-    </defs>
-  </svg>
+        {/* Inline SVG to guarantee the perfect curved image cutting. */}
+        <svg width="0" height="0" className="absolute pointer-events-none">
+          <defs>
+            <clipPath id="gothic-arch" clipPathUnits="objectBoundingBox">
+              <path d="M 0.05,1 L 0.95,1 L 0.95,0.45 Q 0.95,0.15 0.5,0 Q 0.05,0.15 0.05,0.45 Z" />
+            </clipPath>
+          </defs>
+        </svg>
 
-  {/* OVERLAY DASHED LINES */}
-  <div className="absolute inset-0 pointer-events-none z-10 overflow-hidden">
-    {/* 1. Straight horizontal line (Adjusted to 10% so it's not too far down) */}
-    <div className="absolute top-[10%] left-0 w-full border-t border-dashed border-[#555]"></div>
-    
-    {/* 2. Curved dashed line 
-        MATH SECRET: If top is -10% and height is 20%, the bottom curve sits flawlessly on the 10% line! */}
-    <div className="absolute top-[-10%] left-0 w-full h-[20%] rounded-[100%] border border-dashed border-[#555]"></div>
-  </div>
+        {/* OVERLAY DASHED LINES */}
+        <div className="absolute inset-0 pointer-events-none z-10 overflow-hidden">
+          <div className="absolute top-[10%] left-0 w-full border-t border-dashed border-[#555]"></div>
+          <div className="absolute top-[-10%] left-0 w-full h-[20%] rounded-[100%] border border-dashed border-[#555]"></div>
+        </div>
 
-  <div className="w-full h-[90%] z-0 relative flex justify-center ">
-    <div 
-      className="w-full h-full bg-gray-900 relative"
-      style={{ clipPath: 'url(#gothic-arch)' }}
-    >
-      <img 
-        src="assets/images/first1.webp" 
-        alt="Portrait Left" 
-        className="absolute inset-0 w-full h-full object-cover grayscale-[40%] contrast-125 opacity-90"
-      />
-    </div>
-  </div>
-</div>
+        <div className="w-full h-[90%] z-0 relative flex justify-center ">
+          <div 
+            className="w-full h-full bg-gray-900 relative"
+            style={{ clipPath: 'url(#gothic-arch)' }}
+          >
+            <img 
+              src="assets/images/first1.webp" 
+              alt="Portrait Left" 
+              className="absolute inset-0 w-full h-full object-cover grayscale-[40%] contrast-125 opacity-90"
+            />
+          </div>
+        </div>
+      </div>
 
       {/* --- CENTER PANEL --- */}
-      {/* REMOVED overflow-hidden so the bottom button is not cut off */}
-      <div className="relative h-[60vh] w-[1000px] md:h-[74vh] border border-dashed border-[#444] rounded-xl flex flex-col items-center justify-between py-10 px-4 md:px-10">
+      <div className="hidden md:flex relative h-[60vh] w-[1000px] md:h-[74vh] border border-dashed border-[#444] rounded-xl flex-col items-center justify-between py-10 px-4 md:px-10">
         
         <div className="text-center flex flex-col z-20 mt-4">
-          <span className="text-[10px] md:text-[12px] tracking-[0.2em] text-gray-400">SIENA FILM</span>
+          <span className="text-[10px] md:text-[12px] tracking-[0.2em] text-gray-400">SLINGSHOT</span>
           <span className="text-[10px] md:text-[12px] tracking-[0.2em] text-gray-400">FOUNDATION IS A</span>
         </div>
         
         {/* Perfectly aligned lines and text */}
         <div className="relative w-full flex-1 flex flex-col items-center justify-center my-8 md:my-12 max-h-[300px] md:max-h-[400px]">
-    
-    {/* 4 Background Lines spanning the FULL width */}
-    <div className="absolute inset-0 flex flex-col justify-between z-0 pointer-events-none">
-      
-      <div className="-mx-4 md:-mx-10 border-t border-[#e5e4df] h-[1.5px]"></div>
-      <div className="-mx-4 md:-mx-10 border-t border-[#e5e4df] h-[1.5px]"></div>
-      <div className="-mx-4 md:-mx-10 border-t border-[#e5e4df] h-[1.5px]"></div>
-      <div className="-mx-4 md:-mx-10 border-t border-[#e5e4df] h-[1.5px]"></div>
-    </div>
-    
-    {/* Text blocks mapping exactly to the 3 spaces between the 4 lines */}
-    <div className="z-10 flex flex-col items-center justify-between h-full w-full">
-      <div className="flex-1 flex items-center justify-center">
-        <p className="px-6 text-4xl sm:text-5xl md:text-6xl lg:text-[75px] font-medium tracking-tight uppercase leading-[0.1] text-white">
-          Film
-        </p>
-      </div>
-      <div className="flex-1 flex items-center justify-center">
-        <p className="px-6 text-4xl sm:text-5xl md:text-6xl lg:text-[75px] font-medium tracking-tight uppercase leading-[0.1] text-white">
-          Production
-        </p>
-      </div>
-      <div className="flex-1 flex items-center justify-center">
-        <p className="px-6 text-4xl sm:text-5xl md:text-6xl lg:text-[75px] font-medium tracking-tight uppercase leading-[0.1] text-white">
-          House
-        </p>
-      </div>
-    </div>
-
-  </div>
+          <div className="absolute inset-0 flex flex-col justify-between z-0 pointer-events-none">
+            <div className="-mx-4 md:-mx-10 border-t border-[#e5e4df] h-[1.5px]"></div>
+            <div className="-mx-4 md:-mx-10 border-t border-[#e5e4df] h-[1.5px]"></div>
+            <div className="-mx-4 md:-mx-10 border-t border-[#e5e4df] h-[1.5px]"></div>
+            <div className="-mx-4 md:-mx-10 border-t border-[#e5e4df] h-[1.5px]"></div>
+          </div>
+          <div className="z-10 flex flex-col items-center justify-between h-full w-full">
+            <div className="flex-1 flex items-center justify-center">
+              <p className="px-6 text-4xl sm:text-5xl md:text-6xl lg:text-[75px] font-medium tracking-tight uppercase leading-[0.1] text-white">
+                Film
+              </p>
+            </div>
+            <div className="flex-1 flex items-center justify-center">
+              <p className="px-6 text-4xl sm:text-5xl md:text-6xl lg:text-[75px] font-medium tracking-tight uppercase leading-[0.1] text-white">
+                Production
+              </p>
+            </div>
+            <div className="flex-1 flex items-center justify-center">
+              <p className="px-6 text-4xl sm:text-5xl md:text-6xl lg:text-[75px] font-medium tracking-tight uppercase leading-[0.1] text-white">
+                House
+              </p>
+            </div>
+          </div>
+        </div>
 
         <div className="text-center flex flex-col z-20 mb-6">
           <span className="text-[10px] md:text-[12px] tracking-[0.2em] text-gray-400">DEDICATED TO CRAFTING</span>
@@ -185,7 +270,6 @@ const AboutSection: React.FC = () => {
         </div>
 
         {/* The Down Button */}
-        {/* Added bg-black and px-4 to cut cleanly through the dashed border */}
         <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 bg-black px-4 flex items-center justify-center z-50">
           <div className="bg-white rounded-full w-8 h-8 flex items-center justify-center text-black cursor-pointer hover:scale-105 transition-transform duration-300">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -198,44 +282,36 @@ const AboutSection: React.FC = () => {
       </div>
 
       {/* --- RIGHT PANEL --- */}
-      <div className="relative h-[60vh] md:h-[74vh] border border-dashed border-[#555] rounded-xl overflow-hidden flex flex-col items-center justify-end">
+      <div className="hidden md:flex relative h-[60vh] md:h-[74vh] border border-dashed border-[#555] rounded-xl overflow-hidden flex-col items-center justify-end">
   
-  {/* Inline SVG to guarantee the perfect curved image cutting. 
-      (If you already have a working #gothic-arch defined globally, you can safely delete this <svg> block!) */}
-  <svg width="0" height="0" className="absolute pointer-events-none">
-    <defs>
-      <clipPath id="gothic-arch" clipPathUnits="objectBoundingBox">
-        {/* Starts bottom-left, goes up, curves to a top point, curves back down to bottom-right */}
-        <path d="M 0.05,1 L 0.95,1 L 0.95,0.45 Q 0.95,0.15 0.5,0 Q 0.05,0.15 0.05,0.45 Z" />
-      </clipPath>
-    </defs>
-  </svg>
+        <svg width="0" height="0" className="absolute pointer-events-none">
+          <defs>
+            <clipPath id="gothic-arch" clipPathUnits="objectBoundingBox">
+              <path d="M 0.05,1 L 0.95,1 L 0.95,0.45 Q 0.95,0.15 0.5,0 Q 0.05,0.15 0.05,0.45 Z" />
+            </clipPath>
+          </defs>
+        </svg>
 
-  {/* OVERLAY DASHED LINES */}
-  <div className="absolute inset-0 pointer-events-none z-10 overflow-hidden">
-    {/* 1. Straight horizontal line (Adjusted to 10% so it's not too far down) */}
-    <div className="absolute top-[10%] left-0 w-full border-t border-dashed border-[#555]"></div>
-    
-    {/* 2. Curved dashed line 
-        MATH SECRET: If top is -10% and height is 20%, the bottom curve sits flawlessly on the 10% line! */}
-    <div className="absolute top-[-10%] left-0 w-full h-[20%] rounded-[100%] border border-dashed border-[#555]"></div>
-  </div>
+        {/* OVERLAY DASHED LINES */}
+        <div className="absolute inset-0 pointer-events-none z-10 overflow-hidden">
+          <div className="absolute top-[10%] left-0 w-full border-t border-dashed border-[#555]"></div>
+          <div className="absolute top-[-10%] left-0 w-full h-[20%] rounded-[100%] border border-dashed border-[#555]"></div>
+        </div>
 
-  {/* IMAGE CONTAINER */}
-  {/* Height is perfectly set to 90% so the absolute top of the image touches the 10% dashed line */}
-  <div className="w-full h-[90%] z-0 relative flex justify-center ">
-    <div 
-      className="w-full h-full bg-gray-900 relative"
-      style={{ clipPath: 'url(#gothic-arch)' }}
-    >
-      <img 
-        src="assets/images/first2.webp" 
-        alt="Portrait Left" 
-        className="absolute inset-0 w-full h-full object-cover grayscale-[40%] contrast-125 opacity-90"
-      />
-    </div>
-  </div>
-</div>
+        {/* IMAGE CONTAINER */}
+        <div className="w-full h-[90%] z-0 relative flex justify-center ">
+          <div 
+            className="w-full h-full bg-gray-900 relative"
+            style={{ clipPath: 'url(#gothic-arch)' }}
+          >
+            <img 
+              src="assets/images/first2.webp" 
+              alt="Portrait Left" 
+              className="absolute inset-0 w-full h-full object-cover grayscale-[40%] contrast-125 opacity-90"
+            />
+          </div>
+        </div>
+      </div>
 
     </div>
   </div>
@@ -243,19 +319,27 @@ const AboutSection: React.FC = () => {
 
       {/* ─── SECTION 2: TYPOGRAPHY ─── */}
       <div className="w-full max-w-[1600px] mx-auto px-6 md:px-10 text-white pt-10 md:pt-20 pb-10 flex flex-col relative z-10 overflow-hidden">
-        <div className="w-full flex flex-col md:flex-row justify-between items-start gap-10 mb-20 md:mb-32">
-          <div className="w-full md:w-auto md:ml-[15%]">
-            <ul className="text-left text-[15px] md:text-[20px] font-bold tracking-tighter leading-none space-y-1">
+        
+        {/* ========================================= */}
+        {/* 📱 MOBILE ONLY VIEW                       */}
+        {/* ========================================= */}
+        <div className="flex md:hidden flex-col w-full relative">
+          
+          {/* Centered Top List */}
+          <div className="w-full flex justify-center mb-10">
+            <ul className="text-center text-[18px] font-bold tracking-tighter leading-none space-y-1">
               <li>MOON IN THE 12TH HOUSE</li>
               <li>TABOO</li>
               <li>SAVOY</li>
               <li>PRISONER X</li>
             </ul>
           </div>
-          <div className="w-full md:w-3/5 grid grid-cols-1 sm:grid-cols-3 gap-x-2 gap-y-6 text-[#999999] font-medium text-[16px] md:text-[20px] leading-tight tracking-tight">
+
+          {/* 3-Column Micro Text */}
+          <div className="w-full grid grid-cols-3 gap-x-2 text-[#999999] font-medium text-[9px] leading-tight tracking-tight mb-16">
             <div className="text-left">
               <p>With a commitment to selective</p>
-              <p>Siena Film Foundation supports</p>
+              <p>Slingshot Foundation supports</p>
               <p>and feature films</p>
               <p>leaving an indelible</p>
             </div>
@@ -272,31 +356,101 @@ const AboutSection: React.FC = () => {
               <p>on the world of cinema.</p>
             </div>
           </div>
-        </div>
 
-        <div className="relative w-full h-[30vh] md:h-[40vh] select-none flex items-center">
-          <h2 className="absolute -left-[4%] top-0 text-[14vw] md:text-[7vw] font-medium tracking-tighter uppercase leading-none">TELEVISION</h2>
-          <div className="absolute left-[20%] top-[65%] w-[25vw] md:w-[12vw] h-[3px] bg-white"></div>
-          <h2 className="absolute left-[65%] -translate-x-1/2 top-[48%] text-[15vw] md:text-[7vw] font-medium tracking-tighter uppercase leading-none w-max">DOCUMENTARY</h2>
-          <h2 className="absolute -right-[2%] top-0 text-[18vw] md:text-[7vw] font-medium tracking-tighter uppercase leading-none">FILMS</h2>
-        </div>
+          {/* Overlapping Text: TELEVISION / FILM / DOCUMENTARY */}
+          <div className="relative w-full h-[15vh] mb-12 flex flex-col justify-center select-none">
+            <h2 className="absolute -left-[15%] top-0 text-[12vw] font-medium tracking-tighter uppercase leading-none">TELEVISION</h2>
+            <h2 className="absolute -right-[5%] top-0 text-[12vw] font-medium tracking-tighter uppercase leading-none">FILM</h2>
+            <h2 className="absolute left-3/4 -translate-x-1/2 top-[58%] text-[12vw] font-medium tracking-tighter uppercase leading-none w-max">DOCUMENTARY</h2>
+          </div>
 
-        <div className="relative w-full h-[40vh] md:h-[50vh] mt-10 md:mt-1 flex items-end justify-between">
-          <div className="absolute -left-[70%] -bottom-[5%] text-[#FDFBF7] font-bold leading-[0.75] tracking-tighter" style={{ fontSize: '20vw' }}>SLINGSHOT</div>
-          <div className="absolute right-[25%] bottom-[20%] text-right z-20">
-            <ul className="text-[14px] md:text-[18px] font-bold tracking-tighter leading-tight">
+          {/* Giant Cut-off Title (SLINGSHOT / SIENA) */}
+          <div className="relative w-full h-[25vh] mt-6 flex items-center select-none">
+            <div className="absolute -left-[55%] text-[#FDFBF7] font-bold leading-[0.75] tracking-tighter" style={{ fontSize: '43vw' }}>
+              SLINGSHOT
+            </div>
+          </div>
+
+          {/* Centered Bottom List */}
+          <div className="w-full flex justify-center text-center z-20 mt-4 mb-16">
+            <ul className="text-[16px] font-bold tracking-tighter leading-tight space-y-1">
               <li>ANA MAXIM</li>
               <li>FREUD THE OUTSIDER</li>
               <li>KAFKA'S LAST TRIAL</li>
             </ul>
           </div>
-          <div className="absolute right-0 bottom-[25%] text-left text-[#555] text-[9px] md:text-[11px] font-medium leading-tight tracking-wider z-20">
+
+          {/* Bottom Gray Footer Info */}
+          <div className="w-full text-center text-[#555] text-[9px] font-medium leading-tight tracking-wider z-20">
             <p>SIENA FILM FOUNDATION</p>
             <p>HARDCOVER. 365 DAYS OF INNOVATION</p>
             <p>ISBN: DRIVE-GROWTH-STANDOUT-FANS</p>
             <p>CULTURALLY-CODED CREATIVITY</p>
           </div>
+
         </div>
+
+
+        {/* ========================================= */}
+        {/* 💻 DESKTOP VIEW (YOUR ORIGINAL CODE)      */}
+        {/* ========================================= */}
+        <div className="hidden md:flex flex-col w-full relative">
+          <div className="w-full flex flex-col md:flex-row justify-between items-start gap-10 mb-20 md:mb-32">
+            <div className="w-full md:w-auto md:ml-[15%]">
+              <ul className="text-left text-[15px] md:text-[20px] font-bold tracking-tighter leading-none space-y-1">
+                <li>MOON IN THE 12TH HOUSE</li>
+                <li>TABOO</li>
+                <li>SAVOY</li>
+                <li>PRISONER X</li>
+              </ul>
+            </div>
+            <div className="w-full md:w-3/5 grid grid-cols-1 sm:grid-cols-3 gap-x-2 gap-y-6 text-[#999999] font-medium text-[16px] md:text-[20px] leading-tight tracking-tight">
+              <div className="text-left">
+                <p>With a commitment to selective</p>
+                <p>Slingshot Foundation supports</p>
+                <p>and feature films</p>
+                <p>leaving an indelible</p>
+              </div>
+              <div className="text-right">
+                <p>and thoughtful</p>
+                <p>and produces</p>
+                <p>that resonate</p>
+                <p>mark</p>
+              </div>
+              <div className="text-right">
+                <p>storytelling,</p>
+                <p>TV, documentaries,</p>
+                <p>globally,</p>
+                <p>on the world of cinema.</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="relative w-full h-[30vh] md:h-[40vh] select-none flex items-center">
+            <h2 className="absolute -left-[4%] top-0 text-[14vw] md:text-[7vw] font-medium tracking-tighter uppercase leading-none">TELEVISION</h2>
+            <div className="absolute left-[20%] top-[65%] w-[25vw] md:w-[12vw] h-[3px] bg-white"></div>
+            <h2 className="absolute left-[65%] -translate-x-1/2 top-[48%] text-[15vw] md:text-[7vw] font-medium tracking-tighter uppercase leading-none w-max">DOCUMENTARY</h2>
+            <h2 className="absolute -right-[2%] top-0 text-[18vw] md:text-[7vw] font-medium tracking-tighter uppercase leading-none">FILMS</h2>
+          </div>
+
+          <div className="relative w-full h-[40vh] md:h-[50vh] mt-10 md:mt-1 flex items-end justify-between">
+            <div className="absolute -left-[70%] -bottom-[5%] text-[#FDFBF7] font-bold leading-[0.75] tracking-tighter" style={{ fontSize: '20vw' }}>SLINGSHOT</div>
+            <div className="absolute right-[25%] bottom-[20%] text-right z-20">
+              <ul className="text-[14px] md:text-[18px] font-bold tracking-tighter leading-tight">
+                <li>ANA MAXIM</li>
+                <li>FREUD THE OUTSIDER</li>
+                <li>KAFKA'S LAST TRIAL</li>
+              </ul>
+            </div>
+            <div className="absolute right-0 bottom-[25%] text-left text-[#555] text-[9px] md:text-[11px] font-medium leading-tight tracking-wider z-20">
+              <p>SIENA FILM FOUNDATION</p>
+              <p>HARDCOVER. 365 DAYS OF INNOVATION</p>
+              <p>ISBN: DRIVE-GROWTH-STANDOUT-FANS</p>
+              <p>CULTURALLY-CODED CREATIVITY</p>
+            </div>
+          </div>
+        </div>
+
       </div>
 
      <SphereGallery/>

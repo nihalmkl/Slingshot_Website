@@ -35,99 +35,112 @@ const SphereGallery = () => {
   ];
 
   // ─── COLUMN DEFINITIONS ───────────────────────────────────────────────
-  // Each column has a pixel width and a list of cells.
-  // Outer columns are narrow + start lower (marginTop) → creates oval/sphere curve.
-  // Inner columns are wider + start higher → fills the center of the sphere.
+  // Values are now scaled down (divided by 10). 
+  // We will multiply them by var(--unit) to scale beautifully across all screens.
   // ─────────────────────────────────────────────────────────────────────
   const columns = [
-    // Far left — narrowest, starts lowest
     {
-      width: 75,
-      topOffset: 90,
+      width: 7.5,
+      topOffset: 9,
       cells: [
-        { imgIdx: 0,  height: 115 },
-        { imgIdx: 1,  height: 130 },
-        { imgIdx: 2,  height: 110 },
+        { imgIdx: 0, height: 11.5 },
+        { imgIdx: 1, height: 13 },
+        { imgIdx: 2, height: 11 },
       ],
     },
-    // Left outer
     {
-      width: 120,
-      topOffset: 45,
+      width: 12,
+      topOffset: 4.5,
       cells: [
-        { imgIdx: 3,  height: 150 },
-        { imgIdx: 4,  height: 155 },
-        { imgIdx: 5,  height: 140 },
-        { imgIdx: 6,  height: 100 },
+        { imgIdx: 3, height: 15 },
+        { imgIdx: 4, height: 15.5 },
+        { imgIdx: 5, height: 14 },
+        { imgIdx: 6, height: 10 },
       ],
     },
-    // Left mid
     {
-      width: 160,
-      topOffset: 15,
+      width: 16,
+      topOffset: 1.5,
       cells: [
-        { imgIdx: 7,  height: 180 },
-        { imgIdx: 8,  height: 185 },
-        { imgIdx: 9,  height: 165 },
+        { imgIdx: 7, height: 18 },
+        { imgIdx: 8, height: 18.5 },
+        { imgIdx: 9, height: 16.5 },
       ],
     },
-    // Center left — widest
     {
-      width: 195,
+      width: 19.5,
       topOffset: 0,
       cells: [
-        { imgIdx: 10, height: 200 },
-        { imgIdx: 11, height: 205 },
-        { imgIdx: 12, height: 185 },
+        { imgIdx: 10, height: 20 },
+        { imgIdx: 11, height: 20.5 },
+        { imgIdx: 12, height: 18.5 },
       ],
     },
-    // Center right — widest
     {
-      width: 195,
+      width: 19.5,
       topOffset: 0,
       cells: [
-        { imgIdx: 13, height: 200 },
-        { imgIdx: 14, height: 205 },
-        { imgIdx: 15, height: 185 },
+        { imgIdx: 13, height: 20 },
+        { imgIdx: 14, height: 20.5 },
+        { imgIdx: 15, height: 18.5 },
       ],
     },
-    // Right mid
     {
-      width: 160,
-      topOffset: 15,
+      width: 16,
+      topOffset: 1.5,
       cells: [
-        { imgIdx: 16, height: 180 },
-        { imgIdx: 17, height: 185 },
-        { imgIdx: 18, height: 165 },
+        { imgIdx: 16, height: 18 },
+        { imgIdx: 17, height: 18.5 },
+        { imgIdx: 18, height: 16.5 },
       ],
     },
-    // Right outer
     {
-      width: 120,
-      topOffset: 45,
+      width: 12,
+      topOffset: 4.5,
       cells: [
-        { imgIdx: 19, height: 150 },
-        { imgIdx: 20, height: 155 },
-        { imgIdx: 21, height: 140 },
-        { imgIdx: 22, height: 100 },
+        { imgIdx: 19, height: 15 },
+        { imgIdx: 20, height: 15.5 },
+        { imgIdx: 21, height: 14 },
+        { imgIdx: 22, height: 10 },
       ],
     },
-    // Far right — narrowest, starts lowest
     {
-      width: 75,
-      topOffset: 90,
+      width: 7.5,
+      topOffset: 9,
       cells: [
-        { imgIdx: 23, height: 115 },
-        { imgIdx: 0,  height: 130 },
-        { imgIdx: 1,  height: 110 },
+        { imgIdx: 23, height: 11.5 },
+        { imgIdx: 0, height: 13 },
+        { imgIdx: 1, height: 11 },
       ],
     },
   ];
 
   return (
     <section className="relative w-full min-h-screen bg-black flex items-center justify-center overflow-hidden py-20 mt-20 z-20">
+      
+      {/* ── Dynamic CSS Variable Scaling ── */}
+      <style dangerouslySetInnerHTML={{
+        __html: `
+          .sphere-container {
+            /* On mobile, it acts fluidly based on screen width (90% width) */
+            --unit: 0.85vw; 
+          }
+          @media (min-width: 768px) {
+            .sphere-container {
+              /* Tablet sizing */
+              --unit: 0.75vw;
+            }
+          }
+          @media (min-width: 1024px) {
+            .sphere-container {
+              /* Desktop max size locks at your exact original pixels (1 unit = 10px) */
+              --unit: 10px;
+            }
+          }
+        `
+      }} />
 
-      {/* Radial vignette — fades hard into black on all edges */}
+      {/* Radial vignette */}
       <div
         className="absolute inset-0 pointer-events-none z-10"
         style={{
@@ -145,30 +158,34 @@ const SphereGallery = () => {
         }}
       />
 
-      {/* ── The sphere grid: columns side by side ── */}
-      <div className="relative z-20 flex items-start justify-center gap-[3px]">
+      {/* ── The sphere grid ── */}
+      <div 
+        className="sphere-container relative z-20 flex items-start justify-center"
+        style={{ gap: 'calc(0.3 * var(--unit))' }}
+      >
         {columns.map((col, colIdx) => (
           <div
             key={colIdx}
-            className="flex flex-col gap-[3px]"
+            className="flex flex-col"
             style={{
-              width: `${col.width}px`,
+              width: `calc(${col.width} * var(--unit))`,
               flexShrink: 0,
-              paddingTop: `${col.topOffset}px`,
+              paddingTop: `calc(${col.topOffset} * var(--unit))`,
+              gap: 'calc(0.3 * var(--unit))' // Vertical gap between images
             }}
           >
             {col.cells.map((cell, cellIdx) => (
               <div
                 key={cellIdx}
                 className="relative overflow-hidden w-full"
-                style={{ height: `${cell.height}px` }}
+                style={{ height: `calc(${cell.height} * var(--unit))` }}
               >
                 <Image
                   src={localImages[cell.imgIdx % localImages.length]}
                   alt={`Gallery ${colIdx}-${cellIdx}`}
                   fill
                   className="object-cover brightness-[0.82]"
-                  sizes="200px"
+                  sizes="(max-width: 768px) 15vw, 200px"
                 />
               </div>
             ))}
