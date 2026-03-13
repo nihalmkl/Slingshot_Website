@@ -73,7 +73,7 @@ export default function Header({ films, activeIndex, setActiveIndex, scrollConta
             alt="Siena Film Foundation Icon" 
             width={48} 
             height={48} 
-            className="block md:hidden w-full h-auto object-contain bg-black" 
+            className="block md:hidden w-full h-auto object-contain " 
             priority 
           />
         </Link>
