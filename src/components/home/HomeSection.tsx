@@ -191,6 +191,7 @@ export default function HomeSection() {
           return (
             <main
               key={index}
+              /* HEIGHT RESTORED TO STRICTLY 550px SO DRAG/SCROLL MATH WORKS PERFECTLY */
               className={`relative w-full h-[550px] shrink-0 mx-auto rounded-3xl overflow-hidden shadow-2xl bg-black snap-center transition-all duration-500 ease-out cursor-pointer pointer-events-auto
                 ${isActive ? 'opacity-100 brightness-[0.85]' : 'opacity-60 hover:opacity-80'}
               `}
@@ -217,8 +218,12 @@ export default function HomeSection() {
                 </div>
               </div>
 
-              <div className={`relative z-10 p-8 md:p-16 flex flex-col md:flex-row justify-between h-full min-h-[550px] transition-opacity duration-500 ${isActive ? 'opacity-100' : 'opacity-0'}`}>
 
+              {/* ==============================================
+                  1. DESKTOP LAYOUT (Exact Original Code)
+                     Hidden completely on mobile using hidden md:flex
+                  ============================================== */}
+              <div className={`hidden md:flex relative z-10 p-16 flex-col md:flex-row justify-between h-full min-h-[550px] transition-opacity duration-500 ${isActive ? 'opacity-100' : 'opacity-0'}`}>
                 <div className="flex flex-col justify-between max-w-lg z-10">
                   <div className="flex flex-col items-start text-left">
                     <span className="text-lg tracking-widest uppercase mb-1 font-semibold">2024</span>
@@ -229,19 +234,16 @@ export default function HomeSection() {
                       <path d="M19.8,11.3c0,0-1.1-2.1-2.2-2.1c-1,0-1.8,1.4-2.8,1.4c-1.1,0-2-1.6-3.1-1.6c-0.8,0-1.6,0.6-2.2,1.2 c-0.8-1.5-2.2-2.3-3.9-2.3c-2,0-3.3,1.4-4,3.2C1.1,12.3,1,14.2,1,16h2c0-1.4,0.1-2.8,0.7-3.9c0.4-0.8,1-1.4,1.9-1.4 c1.1,0,1.9,0.8,2.3,1.9l0.4,1.4H10l-0.4-2.1c0.4-0.4,1-0.9,1.6-0.9c0.7,0,1.3,0.8,2,0.8c1.6,0,2.6-2,3.3-2 c0.6,0,1.3,1.4,1.3,1.4l1-1v4h2v-2C20.8,12.2,19.8,11.3,19.8,11.3z" />
                     </svg>
                   </div>
-
-                  <div className="mt-auto pt-10 md:pt-20 flex flex-col items-start z-20">
-                    <div className="w-full max-w-[450px] text-center mb-2 md:mb-3">
-                      <span className="text-[8px] md:text-[10px] tracking-[0.4em] uppercase font-bold text-white/90">
+                  <div className="mt-auto pt-20 flex flex-col items-start z-20">
+                    <div className="w-full max-w-[450px] text-center mb-3">
+                      <span className="text-[10px] tracking-[0.4em] uppercase font-bold text-white/90">
                         DOCUMENTARY
                       </span>
                     </div>
-
-                    <h2 className="text-3xl md:text-[48px] font-semibold uppercase tracking-tighter leading-[0.85] mb-8 max-w-[380px] text-white">
+                    <h2 className="text-[48px] font-semibold uppercase tracking-tighter leading-[0.85] mb-8 max-w-[380px] text-white">
                       {film.title}
                     </h2>
-
-                    <div className="w-[280px] md:w-[360px] flex flex-col text-[10px] md:text-[12.5px] font-extrabold tracking-[0.25em] uppercase text-white">
+                    <div className="w-[360px] flex flex-col text-[12.5px] font-extrabold tracking-[0.25em] uppercase text-white">
                       <div className="flex items-center w-full border-t border-b border-white/90 py-[1px]">
                         <span className="flex-1 text-center leading-[0.65] mt-[2px]">DIRECTOR</span>
                         <span className="flex-1 text-center leading-[0.65] mt-[2px]">{film.director}</span>
@@ -257,40 +259,100 @@ export default function HomeSection() {
                     </div>
                   </div>
                 </div>
-
-                <div className="flex flex-col justify-between items-end text-right mt-12 md:mt-0 z-10">
+                <div className="flex flex-col justify-between items-end text-right z-10">
                   <div className="space-y-8 max-w-xs">
                     <div>
-                      <p className="text-[9px] tracking-[0.2em] uppercase text-gray-400 mb-2">The Armenian Report</p>
+                      <p className="text-[9px] tracking-[0.2em] uppercase text-gray-400 mb-2">Critical Acclaim</p>
                       <p className="text-sm tracking-wider uppercase font-medium mb-2">"Inspiring True Story"</p>
                       <div className="text-white text-xs tracking-widest">★★★★★</div>
                     </div>
+                    <div>
+                      <p className="text-[9px] tracking-[0.2em] uppercase text-gray-400 mb-2">The Armenian Report</p>
+                      <p className="text-sm tracking-wider uppercase font-medium mb-2">"A fascinating voyage"</p>
+                      <div className="text-white text-xs tracking-widest">★★★★★</div>
+                    </div>
                   </div>
-
-                  <Link href="/" className="group relative flex items-stretch text-white hover:text-black transition-colors duration-300 cursor-pointer min-h-[46px]">
-                    <div className="absolute inset-0 bg-white/0 group-hover:bg-white transition-colors duration-300 pointer-events-none" style={{ WebkitMaskImage: 'radial-gradient(circle at 0 0, transparent 5.5px, black 6px), radial-gradient(circle at 100% 0, transparent 5.5px, black 6px), radial-gradient(circle at 0 100%, transparent 5.5px, black 6px), radial-gradient(circle at 100% 100%, transparent 5.5px, black 6px), radial-gradient(circle at calc(100% - 56px) 0%, transparent 5.5px, black 6px), radial-gradient(circle at calc(100% - 56px) 100%, transparent 5.5px, black 6px)', maskImage: 'radial-gradient(circle at 0 0, transparent 5.5px, black 6px), radial-gradient(circle at 100% 0, transparent 5.5px, black 6px), radial-gradient(circle at 0 100%, transparent 5.5px, black 6px), radial-gradient(circle at 100% 100%, transparent 5.5px, black 6px), radial-gradient(circle at calc(100% - 56px) 0%, transparent 5.5px, black 6px), radial-gradient(circle at calc(100% - 56px) 100%, transparent 5.5px, black 6px)', WebkitMaskComposite: 'destination-in', maskComposite: 'intersect' }} />
-                    <div className="absolute top-0 left-[6px] right-[62px] border-t border-white/40 group-hover:border-white transition-colors duration-300 pointer-events-none" />
-                    <div className="absolute bottom-0 left-[6px] right-[62px] border-b border-white/40 group-hover:border-white transition-colors duration-300 pointer-events-none" />
-                    <div className="absolute top-0 right-[6px] w-[44px] border-t border-white/40 group-hover:border-white transition-colors duration-300 pointer-events-none" />
-                    <div className="absolute bottom-0 right-[6px] w-[44px] border-b border-white/40 group-hover:border-white transition-colors duration-300 pointer-events-none" />
-                    <div className="absolute left-0 top-[6px] bottom-[6px] border-l border-white/40 group-hover:border-white transition-colors duration-300 pointer-events-none" />
-                    <div className="absolute right-0 top-[6px] bottom-[6px] border-r border-white/40 group-hover:border-white transition-colors duration-300 pointer-events-none" />
-                    <div className="absolute top-0 left-0 w-[6px] h-[6px] border-b border-r border-white/40 rounded-br-full group-hover:border-white transition-colors duration-300 pointer-events-none" />
-                    <div className="absolute top-0 right-0 w-[6px] h-[6px] border-b border-l border-white/40 rounded-bl-full group-hover:border-white transition-colors duration-300 pointer-events-none" />
-                    <div className="absolute bottom-0 left-0 w-[6px] h-[6px] border-t border-r border-white/40 rounded-tr-full group-hover:border-white transition-colors duration-300 pointer-events-none" />
-                    <div className="absolute bottom-0 right-0 w-[6px] h-[6px] border-t border-l border-white/40 rounded-tl-full group-hover:border-white transition-colors duration-300 pointer-events-none" />
-                    <div className="absolute top-0 right-[50px] w-[12px] h-[6px] border-b border-l border-r border-white/40 rounded-b-full group-hover:border-white transition-colors duration-300 pointer-events-none" />
-                    <div className="absolute bottom-0 right-[50px] w-[12px] h-[6px] border-t border-l border-r border-white/40 rounded-t-full group-hover:border-white transition-colors duration-300 pointer-events-none" />
-                    <div className="absolute top-[6px] bottom-[6px] right-[56px] border-l border-dashed border-white group-hover:border-white transition-colors duration-300 pointer-events-none" />
-                    <div className="flex items-center justify-center px-10 md:px-8 py-3 md:py-4 tracking-[0.3em] text-[10px] md:text-xs font-semibold uppercase">Explore</div>
-                    <div className="w-[56px] flex items-center justify-center">
-                      <svg className="w-4 h-4 md:w-5 md:h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                  <Link href="/work" className="group relative flex items-stretch text-black cursor-pointer h-[48px] w-[210px] overflow-hidden">
+                    <div className="absolute inset-0 bg-[#f4f2eb] pointer-events-none" style={{ WebkitMaskImage: 'radial-gradient(circle at 0 0, transparent 6px, black 6.5px), radial-gradient(circle at 100% 0, transparent 6px, black 6.5px), radial-gradient(circle at 0 100%, transparent 6px, black 6.5px), radial-gradient(circle at 100% 100%, transparent 6px, black 6.5px), radial-gradient(circle at calc(100% - 50px) 0%, transparent 6px, black 6.5px), radial-gradient(circle at calc(100% - 50px) 100%, transparent 6px, black 6.5px)', maskImage: 'radial-gradient(circle at 0 0, transparent 6px, black 6.5px), radial-gradient(circle at 100% 0, transparent 6px, black 6.5px), radial-gradient(circle at 0 100%, transparent 6px, black 6.5px), radial-gradient(circle at 100% 100%, transparent 6px, black 6.5px), radial-gradient(circle at calc(100% - 50px) 0%, transparent 6px, black 6.5px), radial-gradient(circle at calc(100% - 50px) 100%, transparent 6px, black 6.5px)' }} />
+                    <div className="absolute top-[8px] bottom-[8px] right-[50px] border-l border-dashed border-black/50 pointer-events-none" />
+                    
+                    <div className="relative z-10 flex-1 flex items-center justify-center tracking-[0.25em] text-[12px] font-extrabold uppercase pt-[2px]">
+                      Explore
+                    </div>
+                    <div className="relative z-10 w-[50px] flex items-center justify-center">
+                      <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14M12 5l7 7-7 7" />
                       </svg>
                     </div>
                   </Link>
                 </div>
               </div>
+
+
+              {/* ==============================================
+                  2. MOBILE LAYOUT (Stacked to match screenshot)
+                     Hidden on desktop using flex md:hidden
+                  ============================================== */}
+              <div className={`flex md:hidden relative z-10 p-6 pt-10 flex-col items-center justify-between h-full transition-opacity duration-500 ${isActive ? 'opacity-100' : 'opacity-0'}`}>
+                
+                {/* Top: Ratings side-by-side */}
+                <div className="flex justify-between gap-4 w-full px-2">
+                  <div className="flex flex-col items-center w-1/2 text-center">
+                    <div className="text-white text-[11px] tracking-widest mb-3">★★★★★</div>
+                    <p className="text-[9px] font-semibold tracking-[0.2em] uppercase text-white mb-3">Critical<br/>Acclaim</p>
+                    <p className="text-[13px] font-bold uppercase leading-tight text-white">"A fascinating<br/>voyage"</p>
+                  </div>
+                  <div className="flex flex-col items-center w-1/2 text-center">
+                    <div className="text-white text-[11px] tracking-widest mb-3">★★★★★</div>
+                    <p className="text-[9px] font-semibold tracking-[0.2em] uppercase text-white mb-3">The Armenian<br/>Report</p>
+                    <p className="text-[13px] font-bold uppercase leading-tight text-white">"Inspiring<br/>True story"</p>
+                  </div>
+                </div>
+
+                {/* Middle: Title & Meta Grid */}
+                <div className="flex flex-col items-center w-full mt-auto mb-6">
+                  <span className="text-[10px] tracking-[0.3em] uppercase font-semibold text-white/90 mb-2">
+                    DOCUMENTARY
+                  </span>
+                  
+                  <h2 className="text-[42px] font-bold uppercase tracking-tighter leading-none mb-5 text-white text-center">
+                    {film.title}
+                  </h2>
+
+                  <div className="w-full max-w-[300px] flex flex-col text-[12px] font-extrabold tracking-[0.15em] uppercase text-white">
+                    <div className="flex items-center justify-between w-full border-t border-b border-white/90 py-[5px]">
+                      <span className="flex-1 text-center">DIRECTOR</span>
+                      <span className="flex-1 text-center">{film.director}</span>
+                    </div>
+                    <div className="flex items-center justify-between w-full border-b border-white/90 py-[5px]">
+                      <span className="flex-1 text-center">YEAR</span>
+                      <span className="flex-1 text-center">{film.year}</span>
+                    </div>
+                    <div className="flex items-center justify-between w-full border-b border-white/90 py-[5px]">
+                      <span className="flex-1 text-center">CATEGORY</span>
+                      <span className="flex-1 text-center">DOCUMENTARY</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Bottom: Solid Off-White Button */}
+                <div className="w-full flex justify-center pb-2">
+                  <Link href="/work" className="group relative flex items-stretch text-black cursor-pointer h-[48px] w-[210px] overflow-hidden">
+                    <div className="absolute inset-0 bg-[#f4f2eb] pointer-events-none" style={{ WebkitMaskImage: 'radial-gradient(circle at 0 0, transparent 6px, black 6.5px), radial-gradient(circle at 100% 0, transparent 6px, black 6.5px), radial-gradient(circle at 0 100%, transparent 6px, black 6.5px), radial-gradient(circle at 100% 100%, transparent 6px, black 6.5px), radial-gradient(circle at calc(100% - 50px) 0%, transparent 6px, black 6.5px), radial-gradient(circle at calc(100% - 50px) 100%, transparent 6px, black 6.5px)', maskImage: 'radial-gradient(circle at 0 0, transparent 6px, black 6.5px), radial-gradient(circle at 100% 0, transparent 6px, black 6.5px), radial-gradient(circle at 0 100%, transparent 6px, black 6.5px), radial-gradient(circle at 100% 100%, transparent 6px, black 6.5px), radial-gradient(circle at calc(100% - 50px) 0%, transparent 6px, black 6.5px), radial-gradient(circle at calc(100% - 50px) 100%, transparent 6px, black 6.5px)' }} />
+                    <div className="absolute top-[8px] bottom-[8px] right-[50px] border-l border-dashed border-black/50 pointer-events-none" />
+                    
+                    <div className="relative z-10 flex-1 flex items-center justify-center tracking-[0.25em] text-[12px] font-extrabold uppercase pt-[2px]">
+                      Explore
+                    </div>
+                    <div className="relative z-10 w-[50px] flex items-center justify-center">
+                      <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14M12 5l7 7-7 7" />
+                      </svg>
+                    </div>
+                  </Link>
+                </div>
+              </div>
+
             </main>
           );
         })}

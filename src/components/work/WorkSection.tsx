@@ -54,7 +54,47 @@ export default function WorkSection() {
       year: "2024",
       location: "TEL AVIV",
       img: "https://images.unsplash.com/photo-1515023115689-589c33041d3c?auto=format&fit=crop&w=500&q=80",
-    }
+    },
+    {
+      id: 6,
+      title: "KAFKA'S LAST TRIAL",
+      category: "DOCUMENTARY",
+      year: "2024",
+      location: "TEL AVIV",
+      img: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=500&q=80",
+    },
+    {
+      id: 7,
+      title: "MY PROJECT X",
+      category: "DOCUMENTARY",
+      year: "2024",
+      location: "TEL AVIV",
+      img: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=500&q=80",
+    },
+    {
+      id: 8,
+      title: "ANA MAXIM",
+      category: "SHORT FILM",
+      year: "2024",
+      location: "TEL AVIV",
+      img: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=500&q=80",
+    },
+    {
+      id: 9,
+      title: "OUTSIDER FREUD",
+      category: "DOCUMENTARY",
+      year: "2024",
+      location: "TEL AVIV",
+      img: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=500&q=80",
+    },
+    {
+      id: 10,
+      title: "SAVOY",
+      category: "FEATURE FILM",
+      year: "2024",
+      location: "TEL AVIV",
+      img: "https://images.unsplash.com/photo-1515023115689-589c33041d3c?auto=format&fit=crop&w=500&q=80",
+    },
   ];
 
   const seamlessFilms = [...films, ...films, ...films, ...films];
@@ -111,8 +151,6 @@ export default function WorkSection() {
           animation: marquee-right 180s linear infinite;
           width: max-content;
         }
-        /* Hover Pause rule completely removed from here! */
-
         /* Hide scrollbar for the horizontal footage container */
         .no-scrollbar::-webkit-scrollbar {
           display: none;
@@ -134,7 +172,7 @@ export default function WorkSection() {
       </div>
 
       {/* --- TOP CENTER: FOOTAGE MODE TOGGLE --- */}
-      <div className="absolute top-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center justify-center z-40 pointer-events-auto">
+      <div className="absolute top-24 md:top-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center justify-center z-40 pointer-events-auto">
         <div 
           className="bg-[#1f1f1f] p-1 flex items-center mb-1"
           style={{ clipPath: 'polygon(6px 0, calc(100% - 6px) 0, 100% 6px, 100% calc(100% - 6px), calc(100% - 6px) 100%, 6px 100%, 0 calc(100% - 6px), 0 6px)' }}
@@ -215,7 +253,7 @@ export default function WorkSection() {
             onMouseLeave={handleMouseLeave}
             onMouseUp={handleMouseUp}
             onMouseMove={handleMouseMove}
-            className={`flex items-center gap-4 md:gap-6 w-full overflow-x-auto no-scrollbar pointer-events-auto mt-20 px-10 md:px-32 ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
+            className={`flex items-center gap-4 md:gap-6 w-full overflow-x-auto no-scrollbar pointer-events-auto mt-28 md:mt-20 px-10 md:px-32 ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
           >
             {films.map((film, index) => {
               const isActive = index === activeIndex;
@@ -256,11 +294,11 @@ export default function WorkSection() {
 
         {/* POSTER MODE (Moving Marquee Grid) */}
         {viewMode === 'poster' && (
-          <div className="flex flex-col gap-2 md:gap-3 pointer-events-auto w-full py-20 mt-10">
+          <div className="flex flex-col gap-2 md:gap-3 pointer-events-auto w-full py-10 md:py-20 mt-0 md:mt-10">
             
             {/* ROW 1: LEFT TO RIGHT */}
-            <div className="w-full overflow-hidden relative h-[180px]">
-              <div className="animate-marquee-right flex gap-4 md:gap-6">
+            <div className="w-full overflow-hidden relative h-[120px] md:h-[180px]">
+              <div className="animate-marquee-right flex gap-3 md:gap-6">
                 {seamlessFilms.map((film, idx) => (
                   <MarqueePosterCard key={`r1-${idx}`} film={film} />
                 ))}
@@ -268,8 +306,8 @@ export default function WorkSection() {
             </div>
 
             {/* ROW 2: RIGHT TO LEFT */}
-            <div className="w-full overflow-hidden relative h-[180px]">
-              <div className="animate-marquee-left flex gap-4 md:gap-6">
+            <div className="w-full overflow-hidden relative h-[120px] md:h-[180px]">
+              <div className="animate-marquee-left flex gap-3 md:gap-6">
                 {seamlessFilms.map((film, idx) => (
                   <MarqueePosterCard key={`r2-${idx}`} film={film} />
                 ))}
@@ -281,36 +319,35 @@ export default function WorkSection() {
 
       </div>
 
-     {/* --- BOTTOM: FOOTER --- */}
-      <footer className="absolute bottom-8 left-0 right-0 px-8 md:px-12 flex justify-between items-end z-20 pointer-events-auto w-full">
+      {/* --- BOTTOM: FOOTER --- */}
+      <footer className="absolute bottom-4 md:bottom-8 left-0 right-0 px-4 md:px-12 flex flex-col md:flex-row justify-between items-center md:items-end z-20 pointer-events-auto w-full h-[220px] md:h-auto">
         
         {viewMode === 'poster' ? (
           // POSTER MODE FOOTER (Detailed Grid)
-          <div className="flex items-end justify-between w-full">
+          <div className="absolute bottom-[110px] md:bottom-0 w-full md:w-auto md:relative flex justify-center md:justify-start pointer-events-auto">
             
             {/* Left Group: Thumbnail & Data Grid */}
-            <div className="flex items-end gap-10 md:gap-24">
+            <div className="flex flex-col md:flex-row items-center md:items-end gap-4 md:gap-24 w-full md:w-auto">
               
               {/* 1. Thumbnail & Title */}
-              <div className="flex items-center gap-4">
-                 <div className="flex items-center gap-4">
-              <div className="w-12 h-14 rounded overflow-hidden shrink-0 shadow-lg">
-                <img 
-                  src={films[activeIndex].img} 
-                  alt={films[activeIndex].title} 
-                  className="w-full h-full object-cover" 
-                />
-              </div>
-              <div className="flex flex-col">
-                <span className="text-[9px] font-extrabold tracking-[0.3em] text-[#777] uppercase mb-0.5">category</span>
-                <span className="text-[16px] font-bold tracking-tight max-w-[70%] uppercase text-white leading-none">documentary changes</span>
-              </div>
-            </div>
+              <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4">
+                {/* ADDED hidden md:block here to hide image on mobile */}
+                <div className="hidden md:block w-12 h-14 rounded overflow-hidden shrink-0 shadow-lg">
+                  <img 
+                    src={films[activeIndex].img} 
+                    alt={films[activeIndex].title} 
+                    className="w-full h-full object-cover" 
+                  />
+                </div>
+                <div className="flex flex-col items-center md:items-start text-center md:text-left">
+                  <span className="text-[9px] font-extrabold tracking-[0.3em] text-[#777] uppercase mb-0.5">category</span>
+                  <span className="text-[16px] font-bold tracking-tight max-w-[200px] md:max-w-[70%] uppercase text-white leading-none">documentary changes</span>
+                </div>
               </div>
 
               {/* 2. Middle Data Grid (4 lines) */}
-              <div className="w-[200px] md:w-[230px] flex flex-col text-[8px] md:text-[9px] font-extrabold tracking-[0.25em] uppercase text-white pb-2">
-                <div className="flex items-center w-full border-t border-b border-white/80 ">
+              <div className="w-[200px] md:w-[230px] flex flex-col text-[8px] md:text-[9px] font-extrabold tracking-[0.25em] uppercase text-white pb-0 md:pb-2">
+                <div className="flex items-center w-full border-t border-b border-white/80 py-[2px]">
                   <span className="flex-1 text-center leading-none mt-[2px]">YEAR</span>
                   <span className="flex-1 text-center leading-none mt-[2px]">{films[activeIndex].year}</span>
                 </div>
@@ -328,11 +365,11 @@ export default function WorkSection() {
           </div>
         ) : (
           // FOOTAGE MODE FOOTER (Empty left space)
-          <div className="flex-1"></div>
+          <div className="hidden md:block flex-1"></div>
         )}
 
-        {/* 3. Absolute Centered Timeline / Ruler Indicator (Visible in both modes) */}
-        <div className="absolute left-1/2 bottom-8 transform -translate-x-1/2 flex items-center justify-center gap-2 pb-2 opacity-60">
+        {/* 3. Absolute Centered Timeline / Ruler Indicator */}
+        <div className="absolute left-1/2 bottom-0 md:bottom-8 transform -translate-x-1/2 flex items-center justify-center gap-2 pb-2 opacity-60 pointer-events-auto">
           {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map((mark) => (
             <div key={mark} className="flex flex-col items-center justify-end h-4">
               {mark === 8 ? (
@@ -344,8 +381,8 @@ export default function WorkSection() {
           ))}
         </div>
 
-        {/* 4. Absolute Right Explore Button */}
-        <div className="absolute right-8 md:right-12 bottom-8">
+        {/* 4. Absolute Explore Button */}
+        <div className="absolute left-1/2 bottom-[50px] transform -translate-x-1/2 md:bottom-0 md:left-auto md:transform-none md:right-12 pointer-events-auto">
           <Link href="/film/filmname" className="group relative flex items-stretch text-white hover:text-black transition-colors duration-300 cursor-pointer min-h-[46px]">
             <div className="absolute inset-0 bg-white/0 group-hover:bg-white transition-colors duration-300 pointer-events-none" style={{ WebkitMaskImage: 'radial-gradient(circle at 0 0, transparent 5.5px, black 6px), radial-gradient(circle at 100% 0, transparent 5.5px, black 6px), radial-gradient(circle at 0 100%, transparent 5.5px, black 6px), radial-gradient(circle at 100% 100%, transparent 5.5px, black 6px), radial-gradient(circle at calc(100% - 56px) 0%, transparent 5.5px, black 6px), radial-gradient(circle at calc(100% - 56px) 100%, transparent 5.5px, black 6px)', maskImage: 'radial-gradient(circle at 0 0, transparent 5.5px, black 6px), radial-gradient(circle at 100% 0, transparent 5.5px, black 6px), radial-gradient(circle at 0 100%, transparent 5.5px, black 6px), radial-gradient(circle at 100% 100%, transparent 5.5px, black 6px), radial-gradient(circle at calc(100% - 56px) 0%, transparent 5.5px, black 6px), radial-gradient(circle at calc(100% - 56px) 100%, transparent 5.5px, black 6px)', WebkitMaskComposite: 'destination-in', maskComposite: 'intersect' }} />
             <div className="absolute top-0 left-[6px] right-[62px] border-t border-white/40 group-hover:border-white transition-colors duration-300 pointer-events-none" />
@@ -376,9 +413,8 @@ export default function WorkSection() {
   );
 }
 
-// ── MARQUEE POSTER CARD COMPONENT (With requested Editorial layout) ──────────
 const MarqueePosterCard = ({ film }: { film: any }) => (
-  <div className="relative w-[180px] h-[180px] md:w-[180px] md:h-[180px] shrink-0 rounded-[10px] overflow-hidden group cursor-pointer">
+  <div className="relative w-[120px] h-[120px] md:w-[180px] md:h-[180px] shrink-0 rounded-[10px] md:rounded-[15px] overflow-hidden group cursor-pointer">
     {/* Image */}
     <img src={film.img} alt={film.title} className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 pointer-events-none" />
     
